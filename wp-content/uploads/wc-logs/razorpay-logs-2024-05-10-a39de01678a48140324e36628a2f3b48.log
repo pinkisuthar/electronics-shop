@@ -1,0 +1,19 @@
+2024-05-10T13:33:53+06:00 INFO Called process_payment with params order_id 702
+2024-05-10T13:33:53+06:00 INFO Set transient with key razorpay_wc_order_id params order_id 702
+2024-05-10T13:33:55+06:00 ERROR Could not enable webhook for localhost
+2024-05-10T13:33:55+06:00 INFO getRazorpayPaymentParams 702
+2024-05-10T13:33:55+06:00 INFO createOrGetRazorpayOrderId 702 and is1ccCheckout is set to no
+2024-05-10T13:33:55+06:00 INFO Called createOrGetRazorpayOrderId with params orderId 702 and is_magic_checkout_order is set to no
+2024-05-10T13:33:55+06:00 INFO razorpayOrderId  | sessionKey razorpay_order_id702
+2024-05-10T13:33:55+06:00 INFO Called createRazorpayOrderId with params orderId 702 and sessionKey razorpay_order_id702
+2024-05-10T13:33:55+06:00 INFO Called getOrderCreationData with params orderId 702
+2024-05-10T13:33:55+06:00 INFO Called getOrderCreationData with params orderId 702 and is1ccOrder is set to no
+2024-05-10T13:33:55+06:00 INFO For order 702
+2024-05-10T13:33:55+06:00 INFO {"receipt":"702","amount":140000,"currency":"INR","payment_capture":1,"app_offer":0,"notes":{"woocommerce_order_number":"702"}}
+2024-05-10T13:33:55+06:00 INFO For order session key razorpay_order_id702
+2024-05-10T16:48:58+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-10T16:48:58+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-10T16:48:58+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-10T16:48:58+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-10T16:48:58+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-10T16:48:58+06:00 INFO create one_cc_plugin_sync_cron successful

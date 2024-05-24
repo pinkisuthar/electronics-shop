@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'woocommerce/pinterest-for-woocommerce',
-        'pretty_version' => 'dev-release/1.3.16',
-        'version' => 'dev-release/1.3.16',
-        'reference' => '28f15587804a9d389508ca36c93385a65f48ce7b',
+        'pretty_version' => 'dev-release/1.3.19',
+        'version' => 'dev-release/1.3.19',
+        'reference' => 'be7a81dc2ed452d0b9d66883fc4f14bf67586f41',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'woocommerce/pinterest-for-woocommerce' => array(
-            'pretty_version' => 'dev-release/1.3.16',
-            'version' => 'dev-release/1.3.16',
-            'reference' => '28f15587804a9d389508ca36c93385a65f48ce7b',
+            'pretty_version' => 'dev-release/1.3.19',
+            'version' => 'dev-release/1.3.19',
+            'reference' => 'be7a81dc2ed452d0b9d66883fc4f14bf67586f41',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
