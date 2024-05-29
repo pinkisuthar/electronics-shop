@@ -1,0 +1,51 @@
+2024-05-27T12:44:57+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-27T12:44:57+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-27T12:44:57+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-27T12:44:57+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-27T12:44:57+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-27T12:44:57+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-05-27T12:59:11+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-27T12:59:11+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-27T12:59:11+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-27T12:59:11+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-27T12:59:11+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-27T12:59:11+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-05-27T12:59:23+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-27T12:59:23+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-27T12:59:23+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-27T12:59:23+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-27T12:59:23+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-27T12:59:23+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-05-27T15:20:00+06:00 INFO Called process_payment with params order_id 704
+2024-05-27T15:20:00+06:00 INFO Set transient with key razorpay_wc_order_id params order_id 704
+2024-05-27T15:20:03+06:00 ERROR Could not enable webhook for localhost
+2024-05-27T15:20:03+06:00 INFO getRazorpayPaymentParams 704
+2024-05-27T15:20:03+06:00 INFO createOrGetRazorpayOrderId 704 and is1ccCheckout is set to no
+2024-05-27T15:20:03+06:00 INFO Called createOrGetRazorpayOrderId with params orderId 704 and is_magic_checkout_order is set to no
+2024-05-27T15:20:03+06:00 INFO razorpayOrderId  | sessionKey razorpay_order_id704
+2024-05-27T15:20:03+06:00 INFO Called createRazorpayOrderId with params orderId 704 and sessionKey razorpay_order_id704
+2024-05-27T15:20:03+06:00 INFO Called getOrderCreationData with params orderId 704
+2024-05-27T15:20:03+06:00 INFO Called getOrderCreationData with params orderId 704 and is1ccOrder is set to no
+2024-05-27T15:20:03+06:00 INFO For order 704
+2024-05-27T15:20:03+06:00 INFO {"receipt":"704","amount":9000000,"currency":"INR","payment_capture":1,"app_offer":0,"notes":{"woocommerce_order_number":"704"}}
+2024-05-27T15:20:03+06:00 INFO For order session key razorpay_order_id704
+2024-05-27T15:20:49+06:00 INFO Called check_razorpay_response: wc_order_kmdZgvPQupBiI
+2024-05-27T15:20:49+06:00 INFO HPOS is disabled and order status: pending
+2024-05-27T15:20:49+06:00 INFO Get order id in check_razorpay_response: orderId 704
+2024-05-27T15:20:49+06:00 INFO handleErrorCase
+2024-05-27T15:20:49+06:00 INFO getErrorMessage orderId: 704
+2024-05-27T15:20:49+06:00 INFO returning An error occured. Please contact administrator for assistance
+2024-05-27T15:20:49+06:00 INFO updateOrder orderId: 704 , razorpayPaymentId:  , success: 
+2024-05-27T15:20:49+06:00 INFO Woocommerce orderId: 704 processed through callback
+2024-05-27T15:50:12+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-27T15:50:12+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-27T15:50:12+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-27T15:50:12+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-27T15:50:12+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-27T15:50:12+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-05-27T19:50:03+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-05-27T19:50:03+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-05-27T19:50:03+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-05-27T19:50:03+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-05-27T19:50:03+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-05-27T19:50:03+06:00 INFO create one_cc_plugin_sync_cron successful

@@ -1086,7 +1086,7 @@ class BEW_Blog extends BEW_Settings {
 
 		?>
 
-		<section class="bew-elements-widgets display-grid bew-elements-container <?php echo esc_attr($wrapper_classes); ?>" <?php echo $this->get_column_attr($settings); ?>>
+		<section class="bew-elements-widgets display-grid bew-elements-container <?php echo esc_attr($wrapper_classes); ?>" <?php echo $this->get_column_attr($settings); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <?php
                 $query = new \WP_Query( $args );
                 if($query->have_posts()) {
@@ -1151,7 +1151,7 @@ class BEW_Blog extends BEW_Settings {
 									?>
 									<div class="bew-post-on">
 										<span class="icon_space"><i class="far fa-clock"></i></span>
-										<a href="<?php echo get_day_link( $archive_year, $archive_month, $archive_day); ?>">
+										<a href="<?php echo esc_url( get_day_link( $archive_year, $archive_month, $archive_day) ); ?>">
 											<?php echo esc_html(get_the_date()); ?>
 										</a>
 									</div>

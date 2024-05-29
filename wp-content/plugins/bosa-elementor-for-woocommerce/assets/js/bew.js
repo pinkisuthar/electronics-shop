@@ -32,6 +32,7 @@ jQuery(document).ready(function($){
                 action: 'bew_ajax_required_plugin',
                 plugins: freeplugins,
                 reqtheme: theme,
+                nonce: BEW.plugin_nonce
             },
             complete: function( data ) {
                 $(".bew-importer-message p").html('');
@@ -40,6 +41,9 @@ jQuery(document).ready(function($){
 
                 $( ".bew-elementor-required-plugins" ).html( data.responseText );
                 modal.show();
+            },
+            error: function(errorThrown){
+                console.log(errorThrown);
             }
         });
 
@@ -71,6 +75,7 @@ jQuery(document).ready(function($){
                 'theme'        : databtnattr.theme,
                 'page'         : databtnattr.page,
                 'status'       : pagestatus,
+                'nonce'        : BEW.import_nonce
             },
             dataType: 'JSON',
             beforeSend: function(){

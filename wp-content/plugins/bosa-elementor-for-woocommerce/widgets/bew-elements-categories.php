@@ -364,6 +364,7 @@ class BEW_Categories extends BEW_Settings {
 
 		if( $source == 'show-all' ) {
 			$cat_args 					= array(
+											'taxonomy'   => 'product_cat',
 											'orderby'    => $order_by,
 											'order'      => $order,
 											'hide_empty' => $hide_empty,
@@ -372,6 +373,7 @@ class BEW_Categories extends BEW_Settings {
 										);
 		} else if( $source == 'manual-selection' ) {
 			$cat_args 					= array(
+											'taxonomy'   => 'product_cat',
 											'orderby'    => $order_by,
 											'order'      => $order,
 											'hide_empty' => $hide_empty,
@@ -380,6 +382,7 @@ class BEW_Categories extends BEW_Settings {
 										);
 		} else {
 			$cat_args 					= array(
+											'taxonomy'   => 'product_cat',
 											'orderby'    => $order_by,
 											'order'      => $order,
 											'hide_empty' => $hide_empty,
@@ -388,7 +391,7 @@ class BEW_Categories extends BEW_Settings {
 										);
 		}
 		$product_categories_final = [];
-		$product_categories = get_terms( 'product_cat', $cat_args );
+		$product_categories = get_terms( $cat_args );
 		if( is_array( $product_categories ) && !empty( $product_categories ) ){
 			foreach( $product_categories as $product_category ) {
 				array_push( $product_categories_final, $product_category->term_id );
@@ -405,7 +408,7 @@ class BEW_Categories extends BEW_Settings {
             $count = 0; 
             if( !empty( $product_categories_final ) ) {
             	?>
-            	<section class="bew-elements-widgets bew-elements-product-categories woocommerce" <?php echo $this->get_column_attr($settings); ?>>
+            	<section class="bew-elements-widgets bew-elements-product-categories woocommerce" <?php echo $this->get_column_attr($settings); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 					<ul class="products <?php echo esc_attr($cat_classes); ?>">
 		                <?php
 		                foreach ( $product_categories_final as $key ) {          
@@ -434,19 +437,6 @@ class BEW_Categories extends BEW_Settings {
 			                                        <span class="count"><?php echo esc_html( $sub_count );  ?></span>
 			                                    </h3>
 			                                </div>
-			                                <?php if( !empty( $view_style ) && $view_style == 'category-style-3' ){ ?>
-			                                    <ul class="product-sub-cat">
-			                                        <?php 
-			                                            $parent_id = $key;
-			                                            $termchildrens = get_terms('product_cat',array('child_of' => $parent_id));
-			                                            foreach( $termchildrens as $termchildren ){
-			                                                $termchild_link = get_term_link( $termchildren );
-			                                        ?>
-			                                            <li><a href="<?php echo esc_url( $termchild_link ); ?>"><?php echo esc_html( $termchildren->name ); ?></a></li>
-			                                        
-			                                        <?php } ?>
-			                                    </ul>
-			                                <?php } ?>
 			                            </div>
 			                        </a>            
 			                    </div>         
@@ -458,7 +448,7 @@ class BEW_Categories extends BEW_Settings {
             }else{
             	?>
             	<div class="bew-error">
-            		<?php echo __( 'No categories found. Please verify that the WooCommerce plugin is active and there are product categories.', 'bosa-elementor-for-woocommerce' ); ?>
+            		<?php echo esc_html__( 'No categories found. Please verify that the WooCommerce plugin is active and there are product categories.', 'bosa-elementor-for-woocommerce' ); ?>
             	</div>
             <?php } ?>
 	<?php

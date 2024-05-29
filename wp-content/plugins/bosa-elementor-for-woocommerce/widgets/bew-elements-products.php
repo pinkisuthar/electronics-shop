@@ -1304,7 +1304,7 @@ class BEW_Products extends BEW_Settings {
 	                $products_loop = new \WP_Query( $args );
 	                if ( $products_loop->have_posts() ) {
 	                	?>
-	                	<div class="bew-elements-widgets bew-elements-products-container woocommerce" <?php echo $this->get_column_attr($settings); ?>>
+	                	<div class="bew-elements-widgets bew-elements-products-container woocommerce" <?php echo $this->get_column_attr($settings); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             				<div class="bew-elements-products <?php echo esc_attr($wrapper_classes); ?>">
 								<?php
 								woocommerce_product_loop_start();
@@ -1326,7 +1326,7 @@ class BEW_Products extends BEW_Settings {
 	                } else {
 	                	?>
 	                	<div class="bew-error">
-	                		<?php echo __( 'No products found. Please verify that the WooCommerce plugin is active and there are products.', 'bosa-elementor-for-woocommerce' ); ?>
+	                		<?php echo esc_html__( 'No products found. Please verify that the WooCommerce plugin is active and there are products.', 'bosa-elementor-for-woocommerce' ); ?>
 	                	</div>
 	                	<?php
 	                }

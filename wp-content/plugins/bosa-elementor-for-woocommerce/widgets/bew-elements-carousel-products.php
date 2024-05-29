@@ -1245,7 +1245,7 @@ class BEW_Carousel_Products extends BEW_Settings {
 				
                 if ( $products_loop->have_posts() ) {
                 	?>
-                	<div class="bew-elements-widgets bew-elements-carousel-products woocommerce owl-carousel <?php echo esc_attr($wrapper_classes); ?>" <?php echo $this->get_column_attr($settings); ?> slider-products="<?php echo esc_attr( $products_display_no ); ?>" slider-products-tablet="<?php echo esc_attr( $products_display_no_tablet ); ?>" slider-products-mobile="<?php echo esc_attr( $products_display_no_mobile ) ?>" products-scroll="<?php echo esc_attr( $products_scroll_no ); ?>" products-scroll-tablet="<?php echo esc_attr( $products_scroll_no_tablet ); ?>" products-scroll-mobile="<?php echo esc_attr( $products_scroll_no_mobile ); ?>" slider-arrows="<?php echo esc_attr( $arrows ); ?>" slider-dots="<?php echo esc_attr( $dots ); ?>" auto-play="<?php echo esc_attr( $auto_play ); ?>" infinite-loop="<?php echo esc_attr( $infinite_loop ); ?>" transition-speed="<?php echo esc_attr( $transition_speed ); ?>">
+                	<div class="bew-elements-widgets bew-elements-carousel-products woocommerce owl-carousel <?php echo esc_attr($wrapper_classes); ?>" <?php echo $this->get_column_attr($settings); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> slider-products="<?php echo esc_attr( $products_display_no ); ?>" slider-products-tablet="<?php echo esc_attr( $products_display_no_tablet ); ?>" slider-products-mobile="<?php echo esc_attr( $products_display_no_mobile ) ?>" products-scroll="<?php echo esc_attr( $products_scroll_no ); ?>" products-scroll-tablet="<?php echo esc_attr( $products_scroll_no_tablet ); ?>" products-scroll-mobile="<?php echo esc_attr( $products_scroll_no_mobile ); ?>" slider-arrows="<?php echo esc_attr( $arrows ); ?>" slider-dots="<?php echo esc_attr( $dots ); ?>" auto-play="<?php echo esc_attr( $auto_play ); ?>" infinite-loop="<?php echo esc_attr( $infinite_loop ); ?>" transition-speed="<?php echo esc_attr( $transition_speed ); ?>">
                 		<?php 
 	                	while ( $products_loop->have_posts() ) : $products_loop->the_post(); ?>
 	                		<ul class="products">
@@ -1257,7 +1257,7 @@ class BEW_Carousel_Products extends BEW_Settings {
                 } else {
                 	?>
                 	<div class="bew-error">
-                		<?php echo __( 'No products found. Please verify that the WooCommerce plugin is active and there are products.', 'bosa-elementor-for-woocommerce' ); ?>
+                		<?php echo esc_html__( 'No products found. Please verify that the WooCommerce plugin is active and there are products.', 'bosa-elementor-for-woocommerce' ); ?>
                 	</div>
                 	<?php
                 }

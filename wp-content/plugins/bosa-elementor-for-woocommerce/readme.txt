@@ -2,8 +2,8 @@
 Contributors: bosathemes, kanchha-kaji-prajapati
 Tags: elementor, elementor kit, elementor addons, woocommerce, elementor widgets, elementor templates, elementor widgets for woocommerce, elementor templates for woocommerce, one click template import
 Requires at least: 4.0
-Tested up to: 6.3
-Stable tag: 1.0.12
+Tested up to: 6.4
+Stable tag: 1.0.13
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -86,6 +86,10 @@ No, Elementor PRO or any other PRO addon is not required.
 10. WooCommerce Elementor Widgets
 
 == Changelog ==
+
+= 1.0.13 =
+= Fix =
+* Security issues fix.
 
 = 1.0.12 =
 = Fix =

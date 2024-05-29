@@ -27,10 +27,6 @@ Class BEW_Ajax_Import_Template {
 
             add_action( 'wp_ajax_bew_ajax_required_plugin', [ $this, 'plugin_requirements' ] );
             add_action( 'wp_ajax_bew_start_import_template', [ $this, 'start_importer' ] );
-
-            add_action( 'wp_ajax_bew_ajax_plugin_activation', [ $this, '_activate_plugin' ] );
-            add_action( 'wp_ajax_bew_ajax_theme_activation', [ $this, '_activate_theme' ] );
-
         }
     }
 
@@ -68,6 +64,13 @@ Class BEW_Ajax_Import_Template {
      * @since Bosa Elementor Addons and Templates for WooCommerce 1.0.0
      */
     function start_importer(){
+        check_ajax_referer( 'bew_ajax_import_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'install_plugins' ) ) {
+            $errorMessage = __( 'Sorry, you are not allowed to install plugins on this site.', 'bosa-elementor-for-woocommerce' );
+            wp_send_json_error( $errorMessage );
+        }
+        
         // check required plugins
         $freeplugins = explode( ';', sanitize_text_field(wp_unslash($_REQUEST['plugins'])) );
         foreach ( $freeplugins as $key => $plugin ) {
@@ -136,6 +139,12 @@ Class BEW_Ajax_Import_Template {
      * @since Bosa Elementor Addons and Templates for WooCommerce 1.0.0
      */
     function plugin_requirements(){
+        check_ajax_referer( 'bew_ajax_plugin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'install_plugins' ) ) {
+            $errorMessage = __( 'Sorry, you are not allowed to install plugins on this site.', 'bosa-elementor-for-woocommerce' );
+            wp_send_json_error( $errorMessage );
+        }
         if ( isset( $_POST ) ) {
             $freeplugins = explode( ';', sanitize_text_field(wp_unslash($_POST['plugins'])) );
             $themeinfo = explode( ';', sanitize_text_field(wp_unslash($_POST['theme'])) );
