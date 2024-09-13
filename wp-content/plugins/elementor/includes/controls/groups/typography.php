@@ -118,6 +118,12 @@ class Group_Control_Typography extends Group_Control_Base {
 					'min' => 1,
 					'max' => 200,
 				],
+				'em' => [
+					'max' => 20,
+				],
+				'rem' => [
+					'max' => 20,
+				],
 				'vw' => [
 					'min' => 0.1,
 					'max' => 10,
@@ -147,6 +153,8 @@ class Group_Control_Typography extends Group_Control_Base {
 				'bold' => esc_html__( 'Bold', 'elementor' ),
 			],
 		];
+
+		$fields = $this->add_font_variables_fields( $fields );
 
 		$fields['text_transform'] = [
 			'label' => esc_html_x( 'Transform', 'Typography Control', 'elementor' ),
@@ -219,7 +227,14 @@ class Group_Control_Typography extends Group_Control_Base {
 					'step' => 0.1,
 				],
 				'em' => [
-					'step' => 0.1,
+					'min' => 0,
+					'max' => 1,
+					'step' => 0.01,
+				],
+				'rem' => [
+					'min' => 0,
+					'max' => 1,
+					'step' => 0.01,
 				],
 			],
 			'responsive' => true,
@@ -229,6 +244,20 @@ class Group_Control_Typography extends Group_Control_Base {
 		$fields['word_spacing'] = [
 			'label' => esc_html__( 'Word Spacing', 'elementor' ),
 			'type' => Controls_Manager::SLIDER,
+			'size_units' => [ 'px', 'em', 'rem', 'custom' ],
+			'range' => [
+				'px' => [
+					'max' => 50,
+				],
+				'em' => [
+					'min' => 0,
+					'max' => 5,
+				],
+				'rem' => [
+					'min' => 0,
+					'max' => 5,
+				],
+			],
 			'desktop_default' => [
 				'unit' => 'em',
 			],
@@ -238,20 +267,92 @@ class Group_Control_Typography extends Group_Control_Base {
 			'mobile_default' => [
 				'unit' => 'em',
 			],
-			'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-			'range' => [
-				'px' => [
-					'step' => 1,
-				],
-				'em' => [
-					'step' => 0.1,
-				],
-			],
 			'responsive' => true,
 			'selector_value' => 'word-spacing: {{SIZE}}{{UNIT}}',
 		];
 
 		return $fields;
+	}
+
+	private function add_font_variables_fields( $fields ): array {
+		$font_variables = $this->get_font_variables();
+
+		if ( empty( $font_variables ) ) {
+			return $fields;
+		}
+
+		$font_variables_conditions = [
+			'weight' => [],
+			'width' => [],
+		];
+
+		foreach ( $font_variables as $font => $variables ) {
+			foreach ( array_keys( $font_variables_conditions ) as $variable ) {
+				if ( in_array( $variable, $variables ) ) {
+					$font_variables_conditions[ $variable ][] = $font;
+				}
+			}
+		}
+
+		if ( ! empty( $font_variables_conditions['weight'] ) ) {
+			$fields['weight'] = [
+				'label' => esc_html_x( 'Weight', 'Typography Control', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 1000,
+					],
+				],
+				'condition' => [
+					'font_family' => $font_variables_conditions['weight'],
+				],
+				'responsive' => true,
+				'selector_value' => 'font-weight: {{SIZE}};',
+			];
+
+			$fields['font_weight']['condition'] = [
+				'font_family!' => $font_variables_conditions['weight'],
+			];
+		}
+
+		if ( ! empty( $font_variables_conditions['width'] ) ) {
+			$fields['width'] = [
+				'label' => esc_html_x( 'Width', 'Typography Control', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 150,
+					],
+				],
+				'condition' => [
+					'font_family' => $font_variables_conditions['width'],
+				],
+				'responsive' => true,
+				'selector_value' => 'font-stretch: {{SIZE}}%;',
+			];
+		}
+
+		$fields['font_style']['condition'] = [
+			'font_family!' => array_keys( $font_variables ),
+		];
+
+		return $fields;
+	}
+
+	private function get_font_variables() {
+		static $font_variables = null;
+
+		if ( null === $font_variables ) {
+			$font_variables = apply_filters( 'elementor/typography/font_variables', [] );
+		}
+
+		return $font_variables;
+	}
+
+	public static function get_font_variable_ranges() {
+		return apply_filters( 'elementor/typography/font_variable_ranges', [] );
 	}
 
 	/**

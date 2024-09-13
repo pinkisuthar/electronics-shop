@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-custom.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Update approved custom post points //
 function scurf_update_user_points_on_approval($post_id) {
 	// Get the post object

@@ -11,12 +11,18 @@ use MailPoet\Entities\SubscriberEntity;
 use MailPoet\Util\DBCollationChecker;
 use MailPoet\Util\Security;
 use MailPoetVendor\Carbon\Carbon;
-use MailPoetVendor\Doctrine\DBAL\Connection;
+use MailPoetVendor\Doctrine\DBAL\ArrayParameterType;
 use MailPoetVendor\Doctrine\DBAL\Query\QueryBuilder;
 use MailPoetVendor\Doctrine\ORM\EntityManager;
 
 class WooCommerceNumberOfOrders implements Filter {
   const ACTION_NUMBER_OF_ORDERS = 'numberOfOrders';
+  const ACTION_NUMBER_OF_ORDERS_WITH_COUPON = 'numberOfOrdersWithCoupon';
+
+  const ACTIONS = [
+    self::ACTION_NUMBER_OF_ORDERS,
+    self::ACTION_NUMBER_OF_ORDERS_WITH_COUPON,
+  ];
 
   /** @var EntityManager */
   private $entityManager;
@@ -75,6 +81,12 @@ class WooCommerceNumberOfOrders implements Filter {
         $joinCondition
       );
 
+    $action = $filterData->getAction();
+
+    if ($action === self::ACTION_NUMBER_OF_ORDERS_WITH_COUPON) {
+      $subQuery->innerJoin('orderStats', $wpdb->prefix . 'wc_order_coupon_lookup', 'couponLookup', 'orderStats.order_id = couponLookup.order_id');
+    }
+
     $queryBuilder->add('join', [
       $subscribersTable => [
         /**
@@ -89,7 +101,7 @@ class WooCommerceNumberOfOrders implements Filter {
       ],
     ], \true)
       ->setParameter('date' . $parameterSuffix, $date->toDateTimeString())
-      ->setParameter('allowedStatuses' . $parameterSuffix, $this->wooFilterHelper->defaultIncludedStatuses(), Connection::PARAM_STR_ARRAY)
+      ->setParameter('allowedStatuses' . $parameterSuffix, $this->wooFilterHelper->defaultIncludedStatuses(), ArrayParameterType::STRING)
       ->groupBy('inner_subscriber_id');
 
     if ($type === '=') {

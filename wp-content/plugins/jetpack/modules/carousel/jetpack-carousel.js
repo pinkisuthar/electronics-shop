@@ -1457,6 +1457,11 @@
 				return; // don't run if the default gallery functions weren't used
 			}
 
+			const images = gallery.querySelectorAll( settings.imgSelector );
+			if ( ! images.length ) {
+				return; // don't run if we found no images in the gallery (somehow it has images that aren't in the media library?)
+			}
+
 			initializeCarousel();
 
 			if ( carousel.isOpen ) {
@@ -1493,7 +1498,7 @@
 			carousel.overlay.style.opacity = 1;
 			carousel.overlay.style.display = 'block';
 
-			initCarouselSlides( gallery.querySelectorAll( settings.imgSelector ), settings.startIndex );
+			initCarouselSlides( images, settings.startIndex );
 
 			swiper = new window.Swiper670( '.jp-carousel-swiper-container', {
 				centeredSlides: true,
@@ -1571,8 +1576,29 @@
 			} );
 		}
 
-		// Register the event listener for starting the gallery
-		document.body.addEventListener( 'click', function ( e ) {
+		// Register the event listeners for starting the gallery
+		document.body.addEventListener( 'click', handleInteraction );
+		document.body.addEventListener( 'keydown', handleInteraction );
+
+		function handleInteraction( e ) {
+			if ( e.type === 'click' ) {
+				handleClick( e );
+				return;
+			}
+
+			if ( e.type === 'keydown' ) {
+				const parentElement = document.activeElement.parentElement;
+				const isParentCarouselContainer =
+					parentElement && parentElement.classList.contains( 'tiled-gallery__item' );
+
+				if ( ( e.key === ' ' || e.key === 'Enter' ) && isParentCarouselContainer ) {
+					handleClick( e );
+					return;
+				}
+			}
+		}
+
+		function handleClick( e ) {
 			var isCompatible =
 				window.CSS && window.CSS.supports && window.CSS.supports( 'display', 'grid' );
 
@@ -1642,7 +1668,7 @@
 				var index = Array.prototype.indexOf.call( gallery.querySelectorAll( itemSelector ), item );
 				loadSwiper( gallery, { startIndex: index } );
 			}
-		} );
+		}
 
 		// Handle lightbox (single image gallery) for images linking to 'Attachment Page'.
 		if ( Number( jetpackCarouselStrings.single_image_gallery ) === 1 ) {

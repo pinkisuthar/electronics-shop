@@ -362,7 +362,7 @@ class OrderFieldsFactory {
       if (!$product instanceof WC_Product) {
         continue;
       }
-      if (!$product->is_type( 'variation' )) {
+      if (!$product->is_type('variation')) {
         $products[] = $product;
         continue;
       }
@@ -377,7 +377,7 @@ class OrderFieldsFactory {
   }
 
   private function getProductOptions(): array {
-    $wpdb = $this->wordPress->getWpdb();
+    global $wpdb;
     $products = $wpdb->get_results(
       "
         SELECT ID, post_title

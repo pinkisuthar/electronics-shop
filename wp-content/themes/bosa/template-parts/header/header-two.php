@@ -98,7 +98,7 @@
 				<div class="row align-items-center">
 					<div class="col-lg-3">
 						<?php get_template_part( 'template-parts/site', 'branding' ); ?>
-						<div class="mobile-menu-container"></div>
+						<!-- <div class="mobile-menu-container"></div> -->
 					</div>
 					<div class="col-lg-9 d-none d-lg-block">
 						<div class="main-navigation-wrap">

@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-visitor.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Visitor Referral Points //
 function scurf_handle_visitor_link() {
     if (isset($_GET['ref'])) {

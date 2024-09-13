@@ -12,7 +12,7 @@ use Automattic\WooCommerce\Internal\Admin\Marketplace;
 use Automattic\WooCommerce\Internal\Admin\Orders\COTRedirectionController;
 use Automattic\WooCommerce\Internal\Admin\Orders\PageController as Custom_Orders_PageController;
 use Automattic\WooCommerce\Internal\Admin\Logging\PageController as LoggingPageController;
-use Automattic\WooCommerce\Internal\Admin\Logging\FileV2\ListTable as LoggingListTable;
+use Automattic\WooCommerce\Internal\Admin\Logging\FileV2\{ FileListTable, SearchListTable };
 use Automattic\WooCommerce\Internal\Admin\WCAdminAssets;
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
@@ -190,7 +190,7 @@ class WC_Admin_Menus {
 
 		add_action(
 			'load-' . $status_page,
-			function() {
+			function () {
 				if ( 'logs' === filter_input( INPUT_GET, 'tab' ) ) {
 					// Initialize the logging page controller early so that it can hook into things.
 					wc_get_container()->get( LoggingPageController::class );
@@ -324,7 +324,9 @@ class WC_Admin_Menus {
 		$screen_options = array(
 			'woocommerce_keys_per_page',
 			'woocommerce_webhooks_per_page',
-			LoggingListTable::PER_PAGE_USER_OPTION_KEY,
+			FileListTable::PER_PAGE_USER_OPTION_KEY,
+			SearchListTable::PER_PAGE_USER_OPTION_KEY,
+			WC_Admin_Log_Table_List::PER_PAGE_USER_OPTION_KEY,
 		);
 
 		if ( in_array( $option, $screen_options, true ) ) {
@@ -366,7 +368,7 @@ class WC_Admin_Menus {
 	 * Init the addons page.
 	 */
 	public function addons_page() {
-		WC_Admin_Addons::output();
+		WC_Admin_Addons::handle_legacy_marketplace_redirects();
 	}
 
 	/**
@@ -426,7 +428,7 @@ class WC_Admin_Menus {
 							<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" />
 						</li>
 						<?php
-						$i--;
+						--$i;
 					endforeach;
 					?>
 				</ul>
@@ -483,7 +485,7 @@ class WC_Admin_Menus {
 	 * Maybe add new management product experience.
 	 */
 	public function maybe_add_new_product_management_experience() {
-		if ( Features::is_enabled( 'new-product-management-experience' ) || FeaturesUtil::feature_is_enabled( 'product_block_editor' ) ) {
+		if ( FeaturesUtil::feature_is_enabled( 'product_block_editor' ) ) {
 			global $submenu;
 			if ( isset( $submenu['edit.php?post_type=product'][10] ) ) {
 				// Disable phpcs since we need to override submenu classes.

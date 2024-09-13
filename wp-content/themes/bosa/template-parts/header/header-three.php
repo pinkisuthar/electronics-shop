@@ -5,19 +5,19 @@
 				<div class="top-header-inner">
 					<div class="container">
 						<div class="row align-items-center">
-							<div class="col-lg-7 d-none d-lg-block">
-								<?php if( has_nav_menu( 'menu-3') ){ ?>
+							<!-- <div class="col-lg-7 d-none d-lg-block">
+								<?php //if( has_nav_menu( 'menu-3') ){ ?>
 									<nav id="secondary-navigation" class="header-navigation">
 										<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'bosa' ); ?></button>
 										<?php
-										wp_nav_menu( array(
-											'theme_location' => 'menu-3',
-											'menu_id'        => 'secondary-menu',
-										) );
+										// wp_nav_menu( array(
+										// 	'theme_location' => 'menu-3',
+										// 	'menu_id'        => 'secondary-menu',
+										// ) );
 										?>
 									</nav><!-- #site-navigation -->
-								<?php } ?>
-							</div>
+								<?php //} ?>
+							</div> -->
 							<div class="col-lg-5 d-none d-lg-block">
 								<div class="header-icons">
 									<?php if( !get_theme_mod( 'disable_header_social_links', false ) && bosa_has_social() ){

@@ -2,14 +2,15 @@
 
 Contributors: yithemes
 Tags: yith, woocommerce compare, compare products, product compare, product comparison
-Requires at least: 6.2
-Tested up to: 6.4
-Stable tag: 2.34.0
+Requires at least: 6.4
+Tested up to: 6.6
+Stable tag: 2.42.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 YITH WooCommerce Compare allows you to compare more products of your shop in one complete table.
-WooCommerce Compatible up to 8.1
+WooCommerce Compatible up to 9.2
 
 == Description ==
 
@@ -24,7 +25,9 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 This plugin is 100% compatible with [WPML](https://wpml.org/)
 
 
-= Installation =
+== Installation ==
+
+**Important**: First of all, you have to download and activate [WooCommerce](https://wordpress.org/plugins/woocommerce) plugin, because without it YITH WooCommerce Compare cannot work.
 
 1. Unzip the downloaded zip file.
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
@@ -58,6 +61,10 @@ During this transition step, .po and .mo files will be used as always, but in or
 yith-woocommerce-compare-<WORDPRESS LOCALE>.po
 yith-woocommerce-compare-<WORDPRESS LOCALE >.mo
 
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/yith-woocommerce-compare)
+
 == Screenshots ==
 
 1. The popup with compare table.
@@ -65,6 +72,50 @@ yith-woocommerce-compare-<WORDPRESS LOCALE >.mo
 3. The settings of plugin
 
 == Changelog ==
+
+= 2.42.0 = Released on 20 August 2024
+
+* New: support for WooCommerce 9.2
+* Update: YITH plugin framework
+
+= 2.41.0 = Released on 18 July 2024
+
+* New: support for WordPress 6.6
+* New: support for WooCommerce 9.1
+* Update: YITH plugin framework
+
+= 2.40.0 = Released on 27 June 2024
+
+* New: support for WooCommerce 9.0
+* Update: YITH plugin framework
+
+= 2.39.0 = Released on 23 May 2024
+
+* New: support for WooCommerce 8.9
+* Update: YITH plugin framework
+
+= 2.38.0 = Released on 15 April 2024
+
+* New: support for WooCommerce 8.8
+* Update: YITH plugin framework
+* Tweak: added nonces to ajax calls
+
+= 2.37.0 = Released on 20 March 2024
+
+* New: support for WordPress 6.5
+* New: support for WooCommerce 8.7
+* Update: YITH plugin framework
+* Dev: filter yith_woocompare_redirect_status
+
+= 2.36.0 = Released on 22 February 2024
+
+* New: support for WooCommerce 8.6
+* Update: YITH plugin framework
+
+= 2.35.0 = Released on 18 January 2024
+
+* New: support for WooCommerce 8.5
+* Update: YITH plugin framework
 
 = 2.34.0 = Released on 14 December 2023
 

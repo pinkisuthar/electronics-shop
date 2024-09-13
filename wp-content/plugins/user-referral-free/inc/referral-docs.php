@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-docs.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Docs Menu //
 function scurf_add_docs() {
     add_submenu_page(
         'user-referral-free-settings',
-        'Documentation',
-        'Docs',
+        __('Documentation', 'user-referral-free'),
+        __('Docs', 'user-referral-free'),
         'manage_options',
         'user-referral-free-docs',
         'scurf_render_docs'

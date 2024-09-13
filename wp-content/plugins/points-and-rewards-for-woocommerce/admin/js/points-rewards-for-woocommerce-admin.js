@@ -41,10 +41,11 @@
 			"align-items": "center",
 		  }),
 		e(document).on("click", ".wps_wpr_common_slider", function () {
-		  e(this).next(".wps_wpr_points_view").slideToggle("slow"),
+		  e(this).next(".wps_wpr_points_view").slideToggle("fast"),
 			e(this).toggleClass("active");
 		}),
 		e(document).find("#wps_wpr_restrictions_for_purchasing_cat").select2(),
+		e(document).find("#wps_wpr_restrict_redeem_points_category_wise").select2(),
 		e(".wps_points_update").click(function () {
 		  var r = e(this).data("id"),
 			i = e(document)
@@ -120,13 +121,43 @@
 			dataType: "json",
 			success: function (e) {
 			  if ("success" == e.result) {
-				var i = e.data,
-				  p = "";
-				for (var s in i)
-				  p += '<option value="' + s + '">' + i[s] + "</option>";
-				jQuery("#wps_wpr_membership_product_list_" + r).html(p),
-				  jQuery("#wps_wpr_membership_product_list_" + r).select2(),
-				  jQuery("#wps_wpr_loader").hide();
+
+				var i             = e.data,
+				p                 = "";
+				var uniqueOptions = new Set();
+
+				// Store the previous selected value
+				var previousSelectedValue = jQuery("#wps_wpr_membership_product_list_" + r).val();
+
+				for (var s in i) {
+					if (!uniqueOptions.has(s)) {
+						uniqueOptions.add(s);
+						p += '<option value="' + s + '">' + i[s] + "</option>";
+					}
+				}
+
+				// Get the previous HTML content of the element
+				var previousValue = jQuery("#wps_wpr_membership_product_list_" + r).html();
+				p = previousValue + p;
+
+				// Update the HTML with unique options
+				jQuery("#wps_wpr_membership_product_list_" + r).html(p);
+
+				// Remove any duplicate <option> elements
+				jQuery("#wps_wpr_membership_product_list_" + r + " option").each(function() {
+					if (uniqueOptions.has(this.value)) {
+						uniqueOptions.delete(this.value); // Remove it from the set if it's already seen
+					} else {
+						jQuery(this).remove(); // Remove duplicate <option>
+					}
+				});
+
+				// Re-select the previous selected value
+				jQuery("#wps_wpr_membership_product_list_" + r).val(previousSelectedValue);
+
+				// Initialize or reinitialize the Select2 plugin
+				jQuery("#wps_wpr_membership_product_list_" + r).select2();
+				jQuery("#wps_wpr_loader").hide();
 			  }
 			},
 		  });
@@ -541,5 +572,128 @@
 	jQuery(document).on('mouseleave', '#wps_wpr_product_purchase_price', function(){
 		this.value = this.value.replace(/[^0-9]/g, '');
 	})
+
+
+	// restrict user from points table.
+	jQuery(document).on('change', '.wps_wpr_restrict_user', function(){
+
+		var user_id = jQuery(this).attr('data-id');
+		if ( jQuery(this).is(':checked') ) {
+			
+			var checked = jQuery(this).val();
+			wps_wpr_restrict_user_call( user_id, checked );
+		} else {
+
+			wps_wpr_restrict_user_call( user_id, 'no' );
+		}
+	});
+
+	/**
+	 * 
+	 * @param {int} user_id user_id.
+	 * @param {string} checked checked.
+	 */
+	function wps_wpr_restrict_user_call( user_id, checked ) {
+		var data    = {
+			'action'  : 'restrict_user_from_points_table',
+			wps_nonce : wps_wpr_object.wps_wpr_nonce,
+			'user_id' : user_id,
+			'checked' : checked,
+		};
+		jQuery.ajax({
+			'url'    : wps_wpr_object.ajaxurl,
+			'method' : 'POST',
+			'data'   : data,
+			success  : function(response) {
+				console.log(response);
+			}
+		});
+	}
+
+	// +++++++++++   Import user points functionality start here   ++++++++++++
+
+	// Importing table points.
+	jQuery(document).on('click','.wps_import',function(e){
+		e.preventDefault();
+		var userpoints_csv_import = jQuery('#userpoints_csv_import').val();
+		if ( '' === userpoints_csv_import ) {
+
+			alert( wps_wpr_object.invalid_files );
+			return false;
+		} else {
+			
+			jQuery('.wps_wpr_export_points_table_main_wrap').show();
+		}
+	});
+
+	// validate radio button and perform import event.
+	jQuery(document).on('click', '#wps_wpr_confirm_import_option', function(){
+
+		var wps_wpr_export_table_option = jQuery('.wps_wpr_export_table_option:checked').val();
+		if ( '' == wps_wpr_export_table_option || undefined == wps_wpr_export_table_option ) {
+
+			jQuery('.wps_wpr_export_table_option').focus();
+			jQuery('.wps_wpr_radion_button_notice').show();
+			jQuery('.wps_wpr_radion_button_notice').html(wps_wpr_object.radio_validate_msg);
+		} else {
+
+			jQuery('.wps_wpr_radion_button_notice').hide();
+			jQuery('.wps_wpr_radion_button_notice').html('');
+			jQuery('.wps_wpr_export_points_table_main_wrap').hide();
+			jQuery("#wps_wpr_loader").show();
+
+			var form_data = new FormData(jQuery('form#mainform')[0]);
+			form_data.append( 'action', 'wps_large_scv_import' );
+			form_data.append( 'wps_wpr_export_table_option', wps_wpr_export_table_option );
+			form_data.append( 'wps_nonce', wps_wpr_object.wps_wpr_nonce );
+			form_data.append('start', 0);
+			wps_wpr_process_csv_chunk(form_data);
+		}
+	});
+
+	// hide import pop-up.
+	jQuery(document).on('click', '.wps_wpr_export_shadow, .wps_wpr_export_close', function(){
+		jQuery('.wps_wpr_export_points_table_main_wrap').hide();
+	});
+
+	// perform recursive ajax.
+	function wps_wpr_process_csv_chunk(form_data) {
+
+		jQuery.ajax({
+			type        : "POST",
+			dataType    : "json",
+			url         : wps_wpr_object.ajaxurl,
+			data        : form_data,
+			processData : false,
+			contentType : false,
+			success: function(response) {
+
+				console.log('Progress: ' + response.progress + '%');
+				if ( response.result == false ) {
+
+					alert( response.msg );
+					jQuery("#wps_wpr_loader").hide();
+					return false;
+				} else {
+
+					if ( ! response.finished ) {
+
+						// Prepare data for next chunk.
+						form_data.set('start', response.start);
+						wps_wpr_process_csv_chunk(form_data); // Recursive call for next chunk.
+					} else {
+
+						jQuery("#wps_wpr_loader").hide();
+						alert(wps_wpr_object.csv_import_success_msg);
+						location.reload();
+					}
+				}
+			},
+			error: function(xhr, status, error) {
+				jQuery("#wps_wpr_loader").hide();
+				alert('Error: ' + xhr.responseText);
+			}
+		});
+	}
 });
   

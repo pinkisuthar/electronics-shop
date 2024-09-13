@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-backup.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Export / Import Data //
 function scurf_add_backup() {
     add_submenu_page(
         'user-referral-free-settings',
-        'Export / Import Data',
-        'Backup',
+        __('Export / Import Data', 'user-referral-free'),
+        __('Backup', 'user-referral-free'),
         'manage_options',
         'user-referral-free-backup',
         'scurf_render_backup'
@@ -18,13 +25,16 @@ function scurf_render_backup() {
         $status = sanitize_text_field($_GET['status']);
 
         if ($status === 'exported') {
-            echo '<div class="updated notice"><p>Data successfully exported!</p></div>';
+            echo '<div class="updated notice is-dismissible"><p>'. __('Data successfully exported!', 'user-referral-free') .'</p></div>';
+
         } elseif ($status === 'no_data') {
-            echo '<div class="error notice"><p>No data found!</p></div>';
+            echo '<div class="error notice is-dismissible"><p>'. __('No data found!', 'user-referral-free') .'</p></div>';
+
         } elseif ($status === 'imported') {
-            echo '<div class="updated notice"><p>Data successfully imported!</p></div>';
+            echo '<div class="updated notice is-dismissible"><p>'. __('Data successfully imported!', 'user-referral-free') .'</p></div>';
+
         } elseif ($status === 'invalid_format') {
-            echo '<div class="error notice"><p>Please upload a CSV file!</p></div>';
+            echo '<div class="error notice is-dismissible"><p>'. __('Please upload a CSV file!', 'user-referral-free') .'</p></div>';
         }
     }
     ?>
@@ -37,7 +47,7 @@ function scurf_render_backup() {
                 <h5><?php _e('Export all the user data such as history, points meta, etc.', 'user-referral-free'); ?></h5> <hr>
                 <input type="hidden" name="action" value="export_referral_data">
                 <p>
-                    <input type="submit" value="Export Data" class="button button-primary">
+                    <input type="submit" value="<?php _e('Export Data', 'user-referral-free'); ?>" class="button button-primary">
                 </p>
                 <?php wp_nonce_field('export_referral_data'); ?>
             </form>
@@ -49,7 +59,7 @@ function scurf_render_backup() {
                     <input type="file" name="import_file">
                 </p>
                 <p>
-                    <input type="submit" value="Import Data" class="button button-primary">
+                    <input type="submit" value="<?php _e('Import Data', 'user-referral-free'); ?>" class="button button-primary">
                 </p>
                 <?php wp_nonce_field('import_referral_data'); ?>
             </form>

@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-daily-login-table.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Get daily login list only //
 function scurf_referral_daily_login_list_only_shortcode($atts) {
     $tl_daily_login = get_option('translate_daily_login');
@@ -24,7 +31,7 @@ function scurf_referral_daily_login_list_only_shortcode($atts) {
 
     // Check if there are no daily login records for the user //
     if (empty($results)) {
-        return "<p class='scurf_no_login_history_found'>No login history found!</p>";
+        return "<p class='scurf_no_login_history_found'>". __('No login history found!', 'user-referral-free') ."</p>";
     }
 
     // Set the number of records to display per page //
@@ -46,7 +53,7 @@ function scurf_referral_daily_login_list_only_shortcode($atts) {
     $results = array_slice($results, $offset, $per_page);
 
     // Build the HTML output for the daily login table. //
-    $output = '<table class="referral-history"><thead><tr><th>Type</th><th>Points</th><th>Date</th></tr></thead><tbody>';
+    $output = '<table class="referral-history"><thead><tr><th>'. __('Type', 'user-referral-free') .'</th><th>'. __('Points', 'user-referral-free') .'</th><th>'. __('Date', 'user-referral-free') .'</th></tr></thead><tbody>';
     foreach ($results as $row) {
         $output .= '<tr>';
         $output .= '<td>' . esc_html($row->type) . '</td>';

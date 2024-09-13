@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-deduct-points.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Deduct Points //
 function scurf_deduct_points_shortcode( $atts ) {
     $tl_points_deduct = get_option('translate_points_deduct');
@@ -25,7 +32,7 @@ function scurf_deduct_points_shortcode( $atts ) {
     $current_user_points = intval( get_user_meta( $user_id, 'user_points', true ) );
 
     if ( $deducted_points > $current_user_points ) {
-        return '<p class="not-enough-points">Sorry, you do not have enough points to deduct.</p>';
+        return '<p class="not-enough-points">Sorry, you do not have enough points to deduct.'. __('XXX', 'user-referral-free') .'</p>';
     } else {
         // Insert referral history record
         global $wpdb;
@@ -68,7 +75,7 @@ function scurf_deduct_points_shortcode( $atts ) {
         update_user_meta( $user_id, 'user_points', $new_user_points );
 
         // Return success message with the updated points balance
-        return '<p class="points-deducted">Points deducted successfully. Your new balance is ' . number_format( $new_user_points ) . ' points.</p>';
+        return '<p class="points-deducted">'. __('Points deducted successfully. Your new balance is', 'user-referral-free') .' ' . number_format( $new_user_points ) . ' '. __('points', 'user-referral-free') .'.</p>';
     }
 }
 add_shortcode( 'deduct_points', 'scurf_deduct_points_shortcode' );

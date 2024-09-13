@@ -40,7 +40,9 @@ class ElementsKit_Widget_Team extends Widget_Base {
     public function get_help_url() {
         return 'https://wpmet.com/doc/team-2/';
     }
-
+    protected function is_dynamic_content(): bool {
+        return false;
+    }
     protected function register_controls() {
 
         // Team Content
@@ -206,6 +208,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             ]
         );
 
+		$popup_selector = '.team-popup-id-{{ID}}';
         $social = new Repeater();
 
         $social->add_control(
@@ -269,7 +272,9 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'default' => '#FFFFFF',
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}} > a' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} {{CURRENT_ITEM}} > a svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};'
+                    '{{WRAPPER}} {{CURRENT_ITEM}} > a svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};',
+                    $popup_selector . ' {{CURRENT_ITEM}} > a' => 'color: {{VALUE}};',
+                    $popup_selector . ' {{CURRENT_ITEM}} > a svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};'
                 ],
             ]
         );
@@ -283,6 +288,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'default' => '#a1a1a1',
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}} > a' => 'background-color: {{VALUE}};',
+					$popup_selector . ' {{CURRENT_ITEM}} > a' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -292,7 +298,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_socialmedia_border',
                 'label' => esc_html__( 'Border', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a,'. $popup_selector . ' {{CURRENT_ITEM}} > a',
             ]
         );
 
@@ -301,14 +307,14 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_socialmedia_icon_normal_text_shadow',
                 'label' => esc_html__( 'Text Shadow', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a,' . $popup_selector . ' {{CURRENT_ITEM}} > a',
             ]
         );
 
         $social->add_group_control(
             Group_Control_Box_Shadow::get_type(), [
                 'name'       => 'ekit_team_socialmedai_list_box_shadow',
-                'selector'   => '{{WRAPPER}} {{CURRENT_ITEM}} > a',
+                'selector'   => '{{WRAPPER}} {{CURRENT_ITEM}} > a,' . $popup_selector . ' {{CURRENT_ITEM}} > a',
             ]
         );
 
@@ -332,6 +338,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover' => 'color: {{VALUE}};',
                     '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover svg path'   => 'stroke: {{VALUE}}; fill: {{VALUE}};',
+                    $popup_selector . ' {{CURRENT_ITEM}} > a:hover' => 'color: {{VALUE}};',
+                    $popup_selector . ' {{CURRENT_ITEM}} > a:hover svg path'   => 'stroke: {{VALUE}}; fill: {{VALUE}};',
                 ],
             ]
         );
@@ -345,6 +353,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'default' => '#3b5998',
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover' => 'background-color: {{VALUE}};',
+					$popup_selector . ' {{CURRENT_ITEM}} > a:hover' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -354,7 +363,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_socialmedia_border_hover',
                 'label' => esc_html__( 'Border', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover,' . $popup_selector . ' {{CURRENT_ITEM}} > a:hover',
             ]
         );
 
@@ -363,14 +372,14 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_socialmedia_icon_hover_text_shadow',
                 'label' => esc_html__( 'Text Shadow', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover',
+                'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover,' . $popup_selector . ' {{CURRENT_ITEM}} > a:hover',
             ]
         );
 
         $social->add_group_control(
             Group_Control_Box_Shadow::get_type(), [
                 'name'       => 'ekit_team_socialmedai_list_box_shadow_hover',
-                'selector'   => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover',
+                'selector'   => '{{WRAPPER}} {{CURRENT_ITEM}} > a:hover,' . $popup_selector . ' {{CURRENT_ITEM}} > a:hover',
             ]
         );
 
@@ -1548,6 +1557,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'toggle' => true,
 				'selectors' => [
                     '{{WRAPPER}} .ekit-team-social-list > li > a' => 'text-align: {{VALUE}};',
+					$popup_selector . ' .ekit-team-social-list > li > a' => 'text-align: {{VALUE}};',
                 ],
             ]
         );
@@ -1565,6 +1575,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-social-list > li' => 'display: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-social-list > li' => 'display: {{VALUE}};',
                 ],
             ]
         );
@@ -1583,7 +1594,10 @@ class ElementsKit_Widget_Team extends Widget_Base {
                     'line-through' => esc_html__( 'Line Through', 'elementskit-lite' ),
 
                 ],
-                'selectors' => ['{{WRAPPER}} .ekit-team-social-list > li > a' => 'text-decoration: {{VALUE}};'],
+                'selectors' => [
+					'{{WRAPPER}} .ekit-team-social-list > li > a' => 'text-decoration: {{VALUE}};',
+					$popup_selector . ' .ekit-team-social-list > li > a' => 'text-decoration: {{VALUE}};'
+				],
             ]
         );
 
@@ -1604,6 +1618,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 				],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-social-list > li > a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-social-list > li > a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -1617,7 +1632,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'type'          => Controls_Manager::DIMENSIONS,
                 'size_units'    => ['px', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .ekit-team-social-list > li > a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .ekit-team-social-list > li > a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-social-list > li > a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -1631,7 +1647,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'type'          => Controls_Manager::DIMENSIONS,
                 'size_units'    => ['px', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .ekit-team-social-list > li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                   '{{WRAPPER}} .ekit-team-social-list > li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    $popup_selector .' .ekit-team-social-list > li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -1656,6 +1673,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-social-list > li > a i' => 'font-size: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .ekit-team-social-list > li > a svg' => 'max-width: {{SIZE}}{{UNIT}};',
+                    $popup_selector .' .ekit-team-social-list > li > a i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    $popup_selector .' .ekit-team-social-list > li > a svg' => 'max-width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1665,7 +1684,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 			[
 				'name' => 'ekit_socialmedai_list_typography',
 				'label' => esc_html__( 'Typography', 'elementskit-lite' ),
-				'selector' => '{{WRAPPER}} .ekit-team-social-list > li > a',
+				'selector' => '{{WRAPPER}} .ekit-team-social-list > li > a,'. $popup_selector . ' .ekit-team-social-list > li > a',
 			]
 		);
 
@@ -1704,6 +1723,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .ekit-team-social-list > li > a' => 'width: {{SIZE}}{{UNIT}};',
+					$popup_selector .' .ekit-team-social-list > li > a' => 'width: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'ekit_socialmedai_list_style_use_height_and_width' => 'yes'
@@ -1734,6 +1754,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .ekit-team-social-list > li > a' => 'height: {{SIZE}}{{UNIT}};',
+					$popup_selector .' .ekit-team-social-list > li > a' => 'height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'ekit_socialmedai_list_style_use_height_and_width' => 'yes'
@@ -1764,6 +1785,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .ekit-team-social-list > li > a' => 'line-height: {{SIZE}}{{UNIT}};',
+					$popup_selector .' .ekit-team-social-list > li > a' => 'line-height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'ekit_socialmedai_list_style_use_height_and_width' => 'yes'
@@ -1825,7 +1847,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'name' => 'ekit_team_modal_background',
                 'label' => esc_html__( 'Background', 'elementskit-lite' ),
                 'types' => [ 'classic', 'gradient' ],
-                'selector' => '{{WRAPPER}} .elementskit-team-popup .modal-content',
+                'selector' => '{{WRAPPER}} .elementskit-team-popup .modal-content, ' . $popup_selector . '.elementskit-team-popup .modal-content',
             ]
         );
 
@@ -1844,7 +1866,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'label'      => esc_html__( 'Color', 'elementskit-lite' ),
                 'type'       => Controls_Manager::COLOR,
                 'selectors'  => [
-                    '{{WRAPPER}} .ekit-team-modal-title' => 'color: {{VALUE}};'
+                    '{{WRAPPER}} .ekit-team-modal-title' => 'color: {{VALUE}};',
+					$popup_selector . ' .ekit-team-modal-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -1852,7 +1875,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
         $this->add_group_control(
             Group_Control_Typography::get_type(), [
                 'name'       => 'ekit_team_modal_name_typography',
-                'selector'   => '{{WRAPPER}} .ekit-team-modal-title',
+                'selector'   => '{{WRAPPER}} .ekit-team-modal-title,' . $popup_selector . ' .ekit-team-modal-title',
             ]
         );
 
@@ -1875,6 +1898,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-modal-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1894,7 +1918,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'label'      => esc_html__( 'Color', 'elementskit-lite' ),
                 'type'       => Controls_Manager::COLOR,
                 'selectors'  => [
-                    '{{WRAPPER}} .ekit-team-modal-position' => 'color: {{VALUE}};'
+                    '{{WRAPPER}} .ekit-team-modal-position' => 'color: {{VALUE}};',
+					$popup_selector . ' .ekit-team-modal-position' => 'color: {{VALUE}};'
                 ],
             ]
         );
@@ -1902,7 +1927,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
         $this->add_group_control(
             Group_Control_Typography::get_type(), [
                 'name'       => 'ekit_team_modal_position_typography',
-                'selector'   => '{{WRAPPER}} .ekit-team-modal-position',
+                'selector'   => '{{WRAPPER}} .ekit-team-modal-position,' . $popup_selector . ' .ekit-team-modal-position',
             ]
         );
 
@@ -1925,6 +1950,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-position' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                    $popup_selector . ' .ekit-team-modal-position' => 'margin-bottom: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1947,6 +1973,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                     'type'      => Controls_Manager::COLOR,
                     'selectors' => [
                         '{{WRAPPER}} .ekit-team-modal-content'  => 'color: {{VALUE}};',
+                        $popup_selector . ' .ekit-team-modal-content'  => 'color: {{VALUE}};',
                     ]
                 ]
             );
@@ -1955,7 +1982,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             $this->add_group_control(
                 Group_Control_Typography::get_type(), [
                     'name'       => 'modal_desc_font',
-                    'selector'   => '{{WRAPPER}} .ekit-team-modal-content',
+                    'selector'   => '{{WRAPPER}} .ekit-team-modal-content,'.  $popup_selector . ' .ekit-team-modal-content',
                 ]
             );
     
@@ -1979,6 +2006,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                     ],
                     'selectors'     => [
                         '{{WRAPPER}} .ekit-team-modal-content' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                        $popup_selector .' .ekit-team-modal-content' => 'margin-bottom: {{SIZE}}{{UNIT}};',
                     ],
                 ]
             );
@@ -1996,7 +2024,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
         $this->add_group_control(
             Group_Control_Typography::get_type(), [
                 'name'       => 'ekit_team_info_typography',
-                'selector'   => '{{WRAPPER}} .ekit-team-modal-list',
+                'selector'   => '{{WRAPPER}} .ekit-team-modal-list,'. $popup_selector . ' .ekit-team-modal-list',
             ]
         );
 
@@ -2006,7 +2034,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'label'      => esc_html__( 'Color', 'elementskit-lite' ),
                 'type'       => Controls_Manager::COLOR,
                 'selectors'  => [
-                    '{{WRAPPER}} .ekit-team-modal-list' => 'color: {{VALUE}};'
+                    '{{WRAPPER}} .ekit-team-modal-list' => 'color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-list' => 'color: {{VALUE}};'
                 ],
             ]
         );
@@ -2017,7 +2046,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'label'      => esc_html__( 'Color Hover', 'elementskit-lite' ),
                 'type'       => Controls_Manager::COLOR,
                 'selectors'  => [
-                    '{{WRAPPER}} .ekit-team-modal-list a:hover' => 'color: {{VALUE}};'
+                    '{{WRAPPER}} .ekit-team-modal-list a:hover' => 'color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-list a:hover' => 'color: {{VALUE}};'
                 ],
             ]
         );
@@ -2053,6 +2083,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .ekit-team-modal-close svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};',
+					$popup_selector . ' .ekit-team-modal-close' => 'color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-close svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};',
                 ],
             ]
         );
@@ -2065,6 +2097,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'default' => '',
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'background-color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-close' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -2074,7 +2107,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_border',
                 'label' => esc_html__( 'Border', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} .ekit-team-modal-close',
+                'selector' => '{{WRAPPER}} .ekit-team-modal-close,' . $popup_selector .' .ekit-team-modal-close',
             ]
         );
 
@@ -2088,6 +2121,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    $popup_selector . ' .ekit-team-modal-close' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -2095,7 +2129,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'ekit_icon_icon_box_shadow_normal_group',
-                'selector' => '{{WRAPPER}} .ekit-team-modal-close',
+                'selector' => '{{WRAPPER}} .ekit-team-modal-close,' . $popup_selector . ' .ekit-team-modal-close',
             ]
         );
         $this->end_controls_tab();
@@ -2116,6 +2150,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close:hover' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .ekit-team-modal-close:hover svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-close:hover' => 'color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-close:hover svg path' => 'stroke: {{VALUE}}; fill: {{VALUE}};',
                 ],
             ]
         );
@@ -2128,6 +2164,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'default' => '',
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close:hover' => 'background-color: {{VALUE}};',
+                    $popup_selector . ' .ekit-team-modal-close:hover' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -2137,7 +2174,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             [
                 'name' => 'ekit_team_border_icon_group',
                 'label' => esc_html__( 'Border', 'elementskit-lite' ),
-                'selector' => '{{WRAPPER}} .ekit-team-modal-close:hover',
+                'selector' => '{{WRAPPER}} .ekit-team-modal-close:hover,' . $popup_selector . ' .ekit-team-modal-close:hover',
             ]
         );
 
@@ -2149,6 +2186,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    $popup_selector . ' .ekit-team-modal-close:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -2156,7 +2194,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
             Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'ekit_team_shadow_group',
-                'selector' => '{{WRAPPER}} .ekit-team-modal-close:hover',
+                'selector' => '{{WRAPPER}} .ekit-team-modal-close:hover,' . $popup_selector . ' .ekit-team-modal-close:hover',
             ]
         );
         $this->end_controls_tab();
@@ -2176,6 +2214,8 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'font-size: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .ekit-team-modal-close svg' => 'max-width: {{SIZE}}{{UNIT}};',
+					$popup_selector .' .ekit-team-modal-close' => 'font-size: {{SIZE}}{{UNIT}};',
+					$popup_selector .' .ekit-team-modal-close svg' => 'max-width: {{SIZE}}{{UNIT}};',
                 ],
                 'separator' => 'before',
             ]
@@ -2189,6 +2229,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 'size_units' => [ 'px', '%', 'em' ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-modal-close' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -2218,6 +2259,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'width: {{SIZE}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-modal-close' => 'width: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                   'ekit_team_close_icon_enable_height_width' => 'yes',
@@ -2238,6 +2280,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'height: {{SIZE}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-modal-close' => 'height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'ekit_team_close_icon_enable_height_width' => 'yes',
@@ -2258,6 +2301,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .ekit-team-modal-close' => 'line-height: {{SIZE}}{{UNIT}};',
+					$popup_selector . ' .ekit-team-modal-close' => 'line-height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'ekit_team_close_icon_enable_height_width' => 'yes',
@@ -2279,6 +2323,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .elementskit-infobox .elementskit-box-header .elementskit-info-box-icon' => ' -webkit-transform: translateY({{SIZE}}{{UNIT}}); -ms-transform: translateY({{SIZE}}{{UNIT}}); transform: translateY({{SIZE}}{{UNIT}});',
+					$popup_selector .' .elementskit-infobox .elementskit-box-header .elementskit-info-box-icon' => ' -webkit-transform: translateY({{SIZE}}{{UNIT}}); -ms-transform: translateY({{SIZE}}{{UNIT}}); transform: translateY({{SIZE}}{{UNIT}});',
                 ],
                 'condition' => [
                     'ekit_icon_box_icon_position!' => 'top'
@@ -2476,7 +2521,7 @@ class ElementsKit_Widget_Team extends Widget_Base {
 			<?php endif; ?>
 
 		<?php if ( $ekit_team_chose_popup == 'yes' ): ?>
-			<div class="zoom-anim-dialog mfp-hide elementskit-team-popup" id="ekit_team_modal_<?php echo esc_attr($this->get_id() . '_' . get_the_ID()); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="zoom-anim-dialog mfp-hide elementskit-team-popup team-popup-id-<?php echo esc_attr($this->get_id()) ;?>" id="ekit_team_modal_<?php echo esc_attr($this->get_id() . '_' . get_the_ID()); ?>" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<button type="button" class="ekit-team-modal-close">

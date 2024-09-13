@@ -5,13 +5,13 @@
 * Contributors:         softclever,bdprojukti
 * Plugin URI: 			https://softclever.com
 * Tags:                 points, rewards, referrals, affiliate, loyalty
-* Version: 				3.0
+* Version: 				6.0
 * Tested up to: 		6.2
 * Requires at least: 	5.0
 * Requires PHP: 	    7.0
-* Stable Tag:           3.0
+* Stable Tag:           6.0
 * License:              GPLv2 or later
-* License URI:          http://www.gnu.org/licenses/gpl-3.0.html
+* License URI:          http://www.gnu.org/licenses/gpl-6.0.html
 
 
 == Description ==
@@ -129,11 +129,36 @@ Yes, the User Referral plugin offers an export/import feature that streamlines d
 
 == Changelog ==
 
+= 1.0 =
+
+* initial release.
+
+= 2.0 =
+
+* History delete issue fixed.
+
 = 3.0 =
-- Initial release.
 
+* Points given issue fixed.
 
-== Upgrade Notice ==
+= 4.0 =
 
-= 3.0 =
-Initial release of the plugin.
+* Bug fixed.
+
+= 5.0 =
+
+* Chart data updated.
+* Sanitization issue fixed.
+
+= 6.0 =
+
+* Bug fixed.
+
+= 7.0 =
+
+* Data optimized.
+* CSS boosted.
+
+= 8.0 =
+
+* Login issue fixed.

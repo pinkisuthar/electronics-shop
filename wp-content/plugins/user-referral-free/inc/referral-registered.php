@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-registered.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Award points when new user registered //
 function scurf_award_points_for_signup($user_id) {
     // Only award points for new signups (exclude user updates)
@@ -6,7 +13,7 @@ function scurf_award_points_for_signup($user_id) {
         $tl_new_register = get_option('translate_new_register');
 
         // Set the point value to award
-        $points_awarded = get_option('points_for_new_register'); // Change this to the desired point value
+        $points_awarded = intval(get_option('points_for_new_register')); // Change this to the desired point value
             
         // Check if the IP address exists in the referral history table
         global $wpdb;

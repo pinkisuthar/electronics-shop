@@ -1,0 +1,124 @@
+2024-09-12T10:41:14+06:00 ERROR Authentication failed
+2024-09-12T10:41:19+06:00 ERROR Authentication failed
+2024-09-12T10:55:31+06:00 ERROR Authentication failed
+2024-09-12T10:57:15+06:00 ERROR Authentication failed
+2024-09-12T11:20:38+06:00 ERROR Authentication failed
+2024-09-12T11:20:41+06:00 ERROR Authentication failed
+2024-09-12T11:21:57+06:00 ERROR Authentication failed
+2024-09-12T11:21:59+06:00 ERROR Authentication failed
+2024-09-12T11:28:23+06:00 ERROR Authentication failed
+2024-09-12T11:28:49+06:00 ERROR Authentication failed
+2024-09-12T11:28:55+06:00 ERROR Authentication failed
+2024-09-12T11:40:56+06:00 ERROR Authentication failed
+2024-09-12T11:40:59+06:00 ERROR Authentication failed
+2024-09-12T11:41:51+06:00 ERROR Authentication failed
+2024-09-12T11:41:58+06:00 ERROR Authentication failed
+2024-09-12T11:42:12+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T11:42:12+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T11:42:12+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T11:42:12+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T11:42:12+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T11:42:12+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T11:42:21+06:00 ERROR Authentication failed
+2024-09-12T12:12:29+06:00 ERROR Authentication failed
+2024-09-12T12:12:38+06:00 ERROR Authentication failed
+2024-09-12T12:14:27+06:00 ERROR Authentication failed
+2024-09-12T12:14:34+06:00 ERROR Authentication failed
+2024-09-12T12:17:38+06:00 ERROR Authentication failed
+2024-09-12T12:19:32+06:00 INFO Called process_payment with params order_id 822
+2024-09-12T12:19:32+06:00 INFO Set transient with key razorpay_wc_order_id params order_id 822
+2024-09-12T12:19:33+06:00 ERROR {"message":"Authentication failed"}
+2024-09-12T12:19:33+06:00 INFO getRazorpayPaymentParams 822
+2024-09-12T12:19:33+06:00 INFO createOrGetRazorpayOrderId 822 and is1ccCheckout is set to no
+2024-09-12T12:19:33+06:00 INFO Called createOrGetRazorpayOrderId with params orderId 822 and is_magic_checkout_order is set to no
+2024-09-12T12:19:33+06:00 INFO razorpayOrderId  | sessionKey razorpay_order_id822
+2024-09-12T12:19:33+06:00 INFO Called createRazorpayOrderId with params orderId 822 and sessionKey razorpay_order_id822
+2024-09-12T12:19:33+06:00 INFO Called getOrderCreationData with params orderId 822
+2024-09-12T12:19:33+06:00 INFO Called getOrderCreationData with params orderId 822 and is1ccOrder is set to no
+2024-09-12T12:19:33+06:00 INFO For order 822
+2024-09-12T12:19:33+06:00 INFO {"receipt":"822","amount":40000,"currency":"INR","payment_capture":1,"app_offer":0,"notes":{"woocommerce_order_number":"822"}}
+2024-09-12T12:19:33+06:00 INFO rzp order error Authentication failed
+2024-09-12T12:19:51+06:00 ERROR Authentication failed
+2024-09-12T12:20:14+06:00 ERROR Authentication failed
+2024-09-12T12:21:58+06:00 ERROR Authentication failed
+2024-09-12T12:25:57+06:00 ERROR Authentication failed
+2024-09-12T12:57:13+06:00 ERROR Authentication failed
+2024-09-12T12:57:20+06:00 ERROR Authentication failed
+2024-09-12T12:57:22+06:00 ERROR Authentication failed
+2024-09-12T12:58:11+06:00 ERROR Authentication failed
+2024-09-12T12:58:16+06:00 ERROR Authentication failed
+2024-09-12T13:08:52+06:00 ERROR Authentication failed
+2024-09-12T13:08:57+06:00 ERROR Authentication failed
+2024-09-12T13:09:16+06:00 ERROR Authentication failed
+2024-09-12T13:12:09+06:00 ERROR Authentication failed
+2024-09-12T13:36:28+06:00 ERROR Authentication failed
+2024-09-12T13:36:51+06:00 ERROR Authentication failed
+2024-09-12T13:36:55+06:00 ERROR Authentication failed
+2024-09-12T13:36:55+06:00 ERROR Authentication failed
+2024-09-12T15:06:06+06:00 ERROR Authentication failed
+2024-09-12T15:06:42+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T15:06:42+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T15:06:42+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T15:06:42+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T15:06:42+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T15:06:42+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T15:06:55+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T15:06:55+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T15:06:55+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T15:06:55+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T15:06:55+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T15:06:55+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T15:07:03+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T15:07:03+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T15:07:03+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T15:07:03+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T15:07:03+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T15:07:03+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T15:07:12+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T15:07:12+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T15:07:12+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T15:07:12+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T15:07:12+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T15:07:12+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T15:07:23+06:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T15:07:23+06:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T15:07:23+06:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T15:07:23+06:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T15:07:23+06:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T15:07:23+06:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:07:34+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:07:34+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:07:34+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:07:34+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:07:34+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:07:34+00:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:07:51+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:07:51+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:07:51+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:07:51+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:07:51+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:07:51+00:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:08:24+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:08:24+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:08:24+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:08:24+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:08:24+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:08:24+00:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:08:35+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:08:35+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:08:35+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:08:35+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:08:35+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:08:35+00:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:08:44+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:08:44+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:08:44+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:08:44+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:08:44+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:08:44+00:00 INFO create one_cc_plugin_sync_cron successful
+2024-09-12T09:08:56+00:00 INFO Trying to create one_cc_address_sync_cron
+2024-09-12T09:08:56+00:00 INFO Failed to create one_cc_address_sync_cron as invalid one cc merchant
+2024-09-12T09:08:56+00:00 INFO Attempting to delete one_cc_address_sync_cron, status: cancelled, message: invalid_1cc_merchant
+2024-09-12T09:08:56+00:00 INFO Deleted one_cc_address_sync_cron  if exists
+2024-09-12T09:08:56+00:00 INFO updateAddressSyncCronData: status=cancelled, message=invalid_1cc_merchant, cronStatus=deleted
+2024-09-12T09:08:56+00:00 INFO create one_cc_plugin_sync_cron successful

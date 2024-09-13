@@ -1,4 +1,8 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 /**
  * Enqueues style for admin notices.
  * 
@@ -27,7 +31,7 @@ function bosa_upsell_admin_notice(){
                 echo '<a href="https://bosathemes.com/bosa-pro" class="button button-primary" target="_blank">Theme Details</a>';
                 echo '<a href="https://bosathemes.com/pricing" class="button button-primary" target="_blank">Buy Bosa Pro</a>';
              echo '</div>';
-            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'bosa-upsell-notice-dismissed', 'dismiss_bosa_upsell_notice' ) ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
+            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'bosa-upsell-notice-dismissed', 'dismiss_bosa_upsell_notice' ), 'bosa_upsell_state', 'bosa_upsell_nonce' ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
         echo '</div>';
     }
 }
@@ -50,7 +54,7 @@ function gutener_upsell_admin_notice(){
                 echo '<a href="https://keonthemes.com/downloads/gutener-pro" class="button button-primary" target="_blank">Theme Details</a>';
                 echo '<a href="https://keonthemes.com/downloads/gutener-pro" class="button button-primary" target="_blank">Buy Gutener Pro</a>';
              echo '</div>';
-            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'gutener-upsell-notice-dismissed', 'dismiss_gutener_upsell_notice' ) ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
+            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'gutener-upsell-notice-dismissed', 'dismiss_gutener_upsell_notice' ), 'gutener_upsell_state', 'gutener_upsell_nonce' ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
         echo '</div>';
     }
 }
@@ -73,7 +77,7 @@ function keon_store_admin_notice(){
                 echo '<a href="https://demo.bosathemes.com/bosa/store" class="button button-primary">View Demo</a>';
                 echo '<a href="https://bosathemes.com/bosa-store" class="button button-primary">Theme Details</a>';
             echo '</div>';
-            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'store-notice-dismissed', 'dismiss_store_notice' ) ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
+            echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'store-notice-dismissed', 'dismiss_store_notice' ), 'store_notice_state', 'store_notice_nonce' ) ) . '" class="admin-notice-dismiss">Dismiss<button type="button" class="notice-dismiss"></button></a>';
         echo '</div>';
     }
 }
@@ -85,16 +89,33 @@ function keon_store_admin_notice(){
  */
 add_action( 'admin_init', 'keon_toolset_notice_dismissed' );
 function keon_toolset_notice_dismissed() {
-    if ( isset( $_GET['store-notice-dismissed'] ) ){
+    if ( isset( $_GET['store-notice-dismissed'] ) && wp_verify_nonce($_GET['store_notice_nonce'], 'store_notice_state') ){
         add_user_meta( get_current_user_id(), 'store_notice_dismissed', true, true );
     }
-    if ( isset( $_GET['bosa-upsell-notice-dismissed'] ) ){
+}
+
+/**
+ * Registers admin notice for current user.
+ * 
+ */
+add_action( 'admin_init', 'keon_toolset_bosa_notice_dismissed' );
+function keon_toolset_bosa_notice_dismissed() {
+    if ( isset( $_GET['bosa-upsell-notice-dismissed'] ) && wp_verify_nonce($_GET['bosa_upsell_nonce'], 'bosa_upsell_state') ){
         add_user_meta( get_current_user_id(), 'dismiss_bosa_upsell_notice', true, true );
     }
-    if ( isset( $_GET['gutener-upsell-notice-dismissed'] ) ){
+}
+
+/**
+ * Registers admin notice for current user.
+ * 
+ */
+add_action( 'admin_init', 'keon_toolset_gutener_notice_dismissed' );
+function keon_toolset_gutener_notice_dismissed() {
+    if ( isset( $_GET['gutener-upsell-notice-dismissed'] ) && wp_verify_nonce($_GET['gutener_upsell_nonce'], 'gutener_upsell_state') ){
         add_user_meta( get_current_user_id(), 'dismiss_gutener_upsell_notice', true, true );
     }
 }
+
 
 /**
  * Removes admin notice dismiss state for current user.

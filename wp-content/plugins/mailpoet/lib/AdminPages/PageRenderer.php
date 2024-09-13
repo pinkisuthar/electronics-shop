@@ -24,6 +24,7 @@ use MailPoet\Settings\UserFlagsController;
 use MailPoet\Tags\TagRepository;
 use MailPoet\Tracy\DIPanel\DIPanel;
 use MailPoet\Util\Installation;
+use MailPoet\Util\License\Features\CapabilitiesManager;
 use MailPoet\Util\License\Features\Subscribers as SubscribersFeature;
 use MailPoet\Util\License\License;
 use MailPoet\WooCommerce;
@@ -83,6 +84,8 @@ class PageRenderer {
   /** @var WooCommerce\WooCommerceSubscriptions\Helper */
   private $wooCommerceSubscriptionsHelper;
 
+  private CapabilitiesManager $capabilitiesManager;
+
   public function __construct(
     Bridge $bridge,
     Renderer $renderer,
@@ -100,7 +103,8 @@ class PageRenderer {
     WPFunctions $wp,
     AssetsController $assetsController,
     WooCommerce\Helper $wooCommerceHelper,
-    WooCommerce\WooCommerceSubscriptions\Helper $wooCommerceSubscriptionsHelper
+    WooCommerce\WooCommerceSubscriptions\Helper $wooCommerceSubscriptionsHelper,
+    CapabilitiesManager $capabilitiesManager
   ) {
     $this->bridge = $bridge;
     $this->renderer = $renderer;
@@ -119,6 +123,7 @@ class PageRenderer {
     $this->assetsController = $assetsController;
     $this->wooCommerceHelper = $wooCommerceHelper;
     $this->wooCommerceSubscriptionsHelper = $wooCommerceSubscriptionsHelper;
+    $this->capabilitiesManager = $capabilitiesManager;
   }
 
   /**
@@ -143,10 +148,7 @@ class PageRenderer {
     if ($this->subscribersFeature->isSubscribersCountEnoughForCache($subscriberCount)) {
       $subscribersCacheCreatedAt = $this->transientCache->getOldestCreatedAt(TransientCache::SUBSCRIBERS_STATISTICS_COUNT_KEY) ?: Carbon::now();
     }
-    // Automations are hidden when the subscription is part of a bundle and AutomateWoo is active
-    $showAutomations = !($this->wp->isPluginActive('automatewoo/automatewoo.php') &&
-      $this->servicesChecker->isBundledSubscription());
-    $hideAutomations = !$this->wp->applyFilters('mailpoet_show_automations', $showAutomations);
+
     $defaults = [
       'current_page' => sanitize_text_field(wp_unslash($_GET['page'] ?? '')),
       'site_name' => $this->wp->wpSpecialcharsDecode($this->wp->getOption('blogname'), ENT_QUOTES),
@@ -188,13 +190,14 @@ class PageRenderer {
       'mss_key_pending_approval' => $this->servicesChecker->isMailPoetAPIKeyPendingApproval(),
       'mss_active' => $this->bridge->isMailpoetSendingServiceEnabled(),
       'plugin_partial_key' => $this->servicesChecker->generatePartialApiKey(),
-      'mailpoet_hide_automations' => $hideAutomations,
       'subscriber_count' => $subscriberCount,
       'subscribers_counts_cache_created_at' => $subscribersCacheCreatedAt->format('Y-m-d\TH:i:sO'),
       'subscribers_limit' => $this->subscribersFeature->getSubscribersLimit(),
       'subscribers_limit_reached' => $this->subscribersFeature->check(),
       'email_volume_limit' => $this->subscribersFeature->getEmailVolumeLimit(),
       'email_volume_limit_reached' => $this->subscribersFeature->checkEmailVolumeLimitIsReached(),
+      'capabilities' => $this->capabilitiesManager->getCapabilities(),
+      'tier' => $this->capabilitiesManager->getTier(),
       'urls' => [
         'automationListing' => admin_url('admin.php?page=mailpoet-automation'),
         'automationEditor' => admin_url('admin.php?page=mailpoet-automation-editor'),
@@ -210,6 +213,7 @@ class PageRenderer {
       }, $this->tagRepository->findAll()),
       'display_docsbot_widget' => $this->displayDocsBotWidget(),
       'is_woocommerce_subscriptions_active' => $this->wooCommerceSubscriptionsHelper->isWooCommerceSubscriptionsActive(),
+      'cron_trigger_method' => $this->settings->get('cron_trigger.method'),
     ];
 
     if (!$defaults['premium_plugin_active']) {
@@ -233,7 +237,7 @@ class PageRenderer {
       $this->wp->doAction('mailpoet_styles_admin_after');
 
       // We are in control of the template and the data can be considered safe at this point
-      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPressDotOrg.sniffs.OutputEscaping.UnescapedOutputParameter
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
       echo $this->renderer->render($template, $data + $defaults);
     } catch (\Exception $e) {
       $notice = new WPNotice(WPNotice::TYPE_ERROR, $e->getMessage());

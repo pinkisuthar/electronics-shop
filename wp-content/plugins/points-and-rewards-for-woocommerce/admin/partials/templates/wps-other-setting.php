@@ -14,6 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 include_once WPS_RWPR_DIR_PATH . '/admin/partials/settings/class-points-rewards-for-woocommerce-settings.php';
 $settings_obj = new Points_Rewards_For_WooCommerce_Settings();
 
@@ -124,22 +125,79 @@ $wps_wpr_other_settings = array(
 	array(
 		'type' => 'sectionend',
 	),
+	array(
+		'title' => __( 'Point Tab Layout Setting', 'points-and-rewards-for-woocommerce' ),
+		'type'  => 'title',
+	),
+	array(
+		'title'    => __( 'Points Tab New layout', 'points-and-rewards-for-woocommerce' ),
+		'type'     => 'checkbox',
+		'id'       => 'wps_wpr_choose_account_page_temp',
+		'class'    => 'input-text',
+		'desc_tip' => __( 'To utilize the new template for the My Account section within the points tab.', 'points-and-rewards-for-woocommerce' ),
+		'default'  => 0,
+		'desc'     => __( ' Activate this setting to enable the new layout for the points tab. ', 'points-and-rewards-for-woocommerce' ),
+	),
+	array(
+		'id'       => 'wps_wpr_points_tab_layout_color',
+		'type'     => 'color',
+		'title'    => __( 'Choose the color scheme for the Points tab layout', 'points-and-rewards-for-woocommerce' ),
+		'desc_tip' => __( 'The selected color will be displayed on the Points tab layout on the My Account page.', 'points-and-rewards-for-woocommerce' ),
+		'class'    => 'input-text',
+		'desc'     => __( 'Enable Point Sharing', 'points-and-rewards-for-woocommerce' ),
+		'default'  => '#0094ff',
+	),
+	array(
+		'type' => 'sectionend',
+	),
+	array(
+		'title' => __( 'Rewards Points via Payment Method', 'points-and-rewards-for-woocommerce' ),
+		'type'  => 'title',
+	),
+	array(
+		'title'    => __( 'Enable Payment Reward Settings', 'points-and-rewards-for-woocommerce' ),
+		'type'     => 'checkbox',
+		'id'       => 'wps_wpr_enable_payment_rewards_settings',
+		'class'    => 'input-text',
+		'desc_tip' => __( 'By enabling this setting, users have the ability to earn points based on their chosen payment method.', 'points-and-rewards-for-woocommerce' ),
+		'default'  => 0,
+		'desc'     => __( 'Activate this setting to reward users according to their order payment method.', 'points-and-rewards-for-woocommerce' ),
+	),
+	array(
+		'title'    => __( 'Select Payment Method', 'points-and-rewards-for-woocommerce' ),
+		'type'     => 'select',
+		'id'       => 'wps_wpr_choose_payment_method',
+		'class'    => 'wc-enhanced-select',
+		'desc_tip' => __( 'Choose the payment method on which users will earn points accordingly.', 'points-and-rewards-for-woocommerce' ),
+		'options'  => $settings_obj->wps_wpr_list_payment_method(),
+	),
+	array(
+		'title'             => __( 'Enter Points', 'points-and-rewards-for-woocommerce' ),
+		'type'              => 'number',
+		'default'           => 1,
+		'id'                => 'wps_wpr_payment_method_rewards_points',
+		'custom_attributes' => array( 'min' => '"1"' ),
+		'class'             => 'input-text wps_wpr_new_woo_ver_style_text',
+		'desc_tip'          => __( 'Points will be rewarded to the user when the order status is marked as completed.', 'points-and-rewards-for-woocommerce' ),
+		'desc'              => __( 'Enter the points that will be rewarded to the user according to their chosen payment method.', 'points-and-rewards-for-woocommerce' ),
+	),
+	array(
+		'type' => 'sectionend',
+	),
 );
 
 $wps_wpr_other_settings = apply_filters( 'wps_wpr_others_settings', $wps_wpr_other_settings );
-/*Save Settings*/
-$current_tab = 'wps_wpr_othersetting_tab';
-
+$current_tab            = 'wps_wpr_othersetting_tab';
 if ( isset( $_POST['wps_wpr_save_othersetting'] ) && isset( $_POST['wps-wpr-nonce'] ) ) {
+
 	$wps_par_nonce = sanitize_text_field( wp_unslash( $_POST['wps-wpr-nonce'] ) );
 	if ( wp_verify_nonce( $wps_par_nonce, 'wps-wpr-nonce' ) ) {
+
 		unset( $_POST['wps_wpr_save_othersetting'] );
 		$other_settings = array();
-		/* Check if input is not empty, if empty then assign them default value*/
-		$postdata = $settings_obj->check_is_settings_is_not_empty( $wps_wpr_other_settings, $_POST );
+		$postdata       = $settings_obj->check_is_settings_is_not_empty( $wps_wpr_other_settings, $_POST );
 		foreach ( $postdata as $key => $value ) {
-			$value                  = stripcslashes( $value );
-			$value                  = sanitize_text_field( $value );
+
 			$other_settings[ $key ] = $value;
 		}
 		/* Save settings data into the database*/
@@ -151,7 +209,7 @@ if ( isset( $_POST['wps_wpr_save_othersetting'] ) && isset( $_POST['wps-wpr-nonc
 		do_action( 'wps_wpr_save_other_settings', $postdata );
 	}
 }
-/* Get Saved settings*/
+
 $other_settings = get_option( 'wps_wpr_other_settings', array() );
 ?>
 <?php do_action( 'wps_wpr_add_notice' ); ?>
@@ -205,6 +263,9 @@ $other_settings = get_option( 'wps_wpr_other_settings', array() );
 											}
 										}
 									}
+									if ( 'select' == $value['type'] ) {
+										$settings_obj->wps_wpr_generate_select_dropdown( $value, $other_settings );
+									}
 									do_action( 'wps_wpr_additional_other_settings', $value, $other_settings );
 									?>
 								</div>
@@ -219,5 +280,6 @@ $other_settings = get_option( 'wps_wpr_other_settings', array() );
 		</div>
 	</div>
 <p class="submit">
+	<input type="hidden" name="wps-wpr-nonce" value="<?php echo esc_html( wp_create_nonce( 'wps-wpr-nonce' ) ); ?>">
 	<input type="submit" value='<?php esc_html_e( 'Save changes', 'points-and-rewards-for-woocommerce' ); ?>' class="button-primary woocommerce-save-button wps_wpr_save_changes" name="wps_wpr_save_othersetting">
 </p>

@@ -6,7 +6,7 @@
 	
 	* Author: 			Md Maruf Adnan Sami
 	* Author URI: 		https://www.mdmarufadnansami.com/
-	* Version: 			3.0
+	* Version: 			8.0
 	
 	* Text Domain: 		user-referral-free
 */

@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-comments.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Award points for new comment that approved //
 function scurf_scurf_award_points_for_comment($comment_id) {
     $comment = get_comment($comment_id);
@@ -6,7 +13,7 @@ function scurf_scurf_award_points_for_comment($comment_id) {
     $user_id = $comment->user_id;
 
     if ($comment->comment_approved === '1' && $user_id) {
-        $points_awarded = get_option('points_for_comment_approved');
+        $points_awarded = intval(get_option('points_for_comment_approved'));
 
         if ($points_awarded !== "00") {
             $comments_limit = 1;

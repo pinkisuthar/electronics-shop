@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-field.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Add custom user field "user_points" with an input field
 function scurf_add_user_points_field($user) {
     $current_user = wp_get_current_user();
@@ -64,7 +71,7 @@ add_action('edit_user_profile_update', 'scurf_save_user_points_field');
 
 // Add custom user field "user_points" to user column
 function scurf_add_user_points_column($columns) {
-    $columns['user_points'] = __('Points', 'sc');
+    $columns['user_points'] = __('Points', 'user-referral-free');
     return $columns;
 }
 add_filter('manage_users_columns', 'scurf_add_user_points_column');
@@ -79,7 +86,7 @@ function scurf_display_user_points_column($value, $column_name, $user_id) {
             $curr_points = '0.00';
         }
         
-        $adjust_link = number_format($curr_points) . '<div class="row-actions"><span><a href="'. $popup_link .'' . $user_id . '" target="_blank">Adjust Points</a></span></div>';
+        $adjust_link = number_format($curr_points) . '<div class="row-actions"><span><a href="'. $popup_link .'' . $user_id . '" target="_blank">'. __('Adjust Points', 'user-referral-free') .'</a></span></div>';
         return $adjust_link;
     }
     return $value;

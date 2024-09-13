@@ -407,7 +407,8 @@ a.wps_wpr_premium--cta {
 
 .wps_wpr_general_label label {
     width: 150px;
-    display: inline-block
+    display: inline-block;
+    word-wrap: break-word;
 }
 
 .wps_wpr_general_row_wrap {
@@ -1261,20 +1262,10 @@ input#wps_wpr_user_badges_fields_add:hover {
     color: #fff;
 }
 
-.wps_wpr_show_version_on_dashboard {
-    text-align: right;
-    position: relative;
-    top: 20px;
-}
-
-.wps_wpr_show_version_on_dashboard span {
-    background-color: #2196f3;
-    color: #fff;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 4px;
-    margin-right: 35px;
-    padding: 0 12px;
+h3.wps_rwpr_setting_title span {
+    font-size: 14px;
+    color: #969696;
+    margin: 0 0 0 10px;
 }
 
 .wp-admin.wp-core-ui .select2-container--default .select2-results__option--highlighted[aria-selected] {
@@ -1302,4 +1293,178 @@ input#wps_wpr_user_badges_fields_add:hover {
     margin-top: 5px;
 }
 
+/* ========= css for dummy html ========= */
+.wps_wpr_reset_user_loader, .wps_wpr_export_user_loader {
+    display: none;
+}
+
+/* Restrict user from points table */
+
+.wps_wpr_wrapper_toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.wps_wpr_wrapper_toggle input {
+    display: none !important;
+}
+  
+.wps_wpr_sliders {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+  
+.wps_wpr_sliders.wps_wpr_rounds {
+    border-radius: 34px;
+}
+
+.wps_wpr_wrapper_toggle input:checked + .wps_wpr_sliders {
+    background-color: #2196F3;
+}
+
+.wps_wpr_sliders:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.wps_wpr_wrapper_toggle input:checked + .wps_wpr_sliders:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+input#wps_wpr_reset_user_points {
+    background-color : #d22e2e;
+    border : 0;
+}
+
+.wps_sample_export img {
+    max-width: 30px;
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.wps_wpr_doc_video_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wps_wpr_doc_video_wrapper a:nth-of-type(1) {
+    margin-right: 2px;
+}
+
 /* General Fixes in Badge Dashoard end*/
+
+/* Import Popup start */
+
+.wps_wpr_export_points_table_main_wrap {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+}
+  
+.wps_wpr_export_shadow {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0,0,0,0.5);
+}
+
+.wps_wpr_export_points_table_in {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%,-50%);
+background: #fff;
+padding: 25px 15px;
+border-radius: 5px;
+}
+
+.wps_wpr_export_points_table_in h4 {
+margin: 0 0 15px;
+}
+
+.wps_wpr_export_points_table_in label {
+margin: 0 10px 0 0;
+cursor: pointer;
+}
+
+#wps_rwpr_setting_wrapper .wps_wpr_export_points_table_in label input[type=radio] {
+margin: 0 5px 0 0;
+}
+
+.wps_wpr_export_points_table_options {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+.wps_wpr_export_close {
+position: absolute;
+top: 0;
+right: 0;
+font-size: 28px;
+line-height: 0;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+}
+
+.wps_wpr_confirm_import_option_wrap {
+margin: 20px 0 0;
+}
+
+.wps_wpr_confirm_import_option_wrap input[type=button] {
+margin: 0;
+}
+
+.wps_wpr_radion_button_notice {
+color: red;
+display: none;
+font-weight: 500;
+margin: 10px 0 0;
+}
+  
+  /* Import Popup End */
+
+/* Referral CSS */
+span.wps_wpr_all_referral_name {
+
+    display: inline-block;
+}
+
+span.wps_wpr_all_referral_view {
+    display: none;
+}
+
+span.wps_wpr_all_referral_name:hover~span.wps_wpr_all_referral_view, span.wps_wpr_all_referral_view:hover {
+    display: inline-block;
+}

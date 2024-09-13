@@ -16,11 +16,6 @@ function jetpack_get_module_i18n( $key ) {
 	static $modules;
 	if ( ! isset( $modules ) ) {
 		$modules = array(
-			'action-bar' => array(
-				'name' => _x( 'Action Bar (Experimental)', 'Module Name', 'jetpack' ),
-				'description' => _x( 'An easy to use way for visitors to follow, like, and comment on your site.', 'Module Description', 'jetpack' ),
-			),
-
 			'blaze' => array(
 				'name' => _x( 'Blaze', 'Module Name', 'jetpack' ),
 				'description' => _x( 'Grow your audience by promoting your content across Tumblr and WordPress.com.', 'Module Description', 'jetpack' ),
@@ -54,21 +49,6 @@ function jetpack_get_module_i18n( $key ) {
 			'custom-content-types' => array(
 				'name' => _x( 'Custom content types', 'Module Name', 'jetpack' ),
 				'description' => _x( 'Display different types of content on your site with custom content types.', 'Module Description', 'jetpack' ),
-			),
-
-			'custom-css' => array(
-				'name' => _x( 'Custom CSS', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Adds options for CSS preprocessor use, disabling the theme\'s CSS, or custom image width.', 'Module Description', 'jetpack' ),
-			),
-
-			'enhanced-distribution' => array(
-				'name' => _x( 'Enhanced Distribution', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Increase reach and traffic.', 'Module Description', 'jetpack' ),
-			),
-
-			'google-analytics' => array(
-				'name' => _x( 'Google Analytics', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Set up Google Analytics without touching a line of code.', 'Module Description', 'jetpack' ),
 			),
 
 			'google-fonts' => array(
@@ -143,7 +123,7 @@ function jetpack_get_module_i18n( $key ) {
 
 			'protect' => array(
 				'name' => _x( 'Brute force protection', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Enabling brute force protection will prevent bots and hackers from attempting to log in to your website with common username and password combinations.', 'Module Description', 'jetpack' ),
+				'description' => _x( 'Prevent bots and hackers from attempting to log in to your website with common username and password combinations.', 'Module Description', 'jetpack' ),
 			),
 
 			'publicize' => array(
@@ -267,8 +247,13 @@ function jetpack_get_module_i18n_tag( $key ) {
 			// - modules/woocommerce-analytics.php
 			'Other' => _x( 'Other', 'Module Tag', 'jetpack' ),
 
+			// Modules with `Traffic` tag:
+			// - modules/blaze.php
+			// - modules/sitemaps.php
+			// - modules/wordads.php
+			'Traffic' => _x( 'Traffic', 'Module Tag', 'jetpack' ),
+
 			// Modules with `Social` tag:
-			// - modules/action-bar.php
 			// - modules/blaze.php
 			// - modules/comment-likes.php
 			// - modules/comments.php
@@ -283,12 +268,6 @@ function jetpack_get_module_i18n_tag( $key ) {
 			// - modules/widgets.php
 			'Social' => _x( 'Social', 'Module Tag', 'jetpack' ),
 
-			// Modules with `Traffic` tag:
-			// - modules/blaze.php
-			// - modules/sitemaps.php
-			// - modules/wordads.php
-			'Traffic' => _x( 'Traffic', 'Module Tag', 'jetpack' ),
-
 			// Modules with `Photos and Videos` tag:
 			// - modules/carousel.php
 			// - modules/photon-cdn.php
@@ -301,26 +280,12 @@ function jetpack_get_module_i18n_tag( $key ) {
 			// Modules with `Writing` tag:
 			// - modules/copy-post.php
 			// - modules/custom-content-types.php
-			// - modules/enhanced-distribution.php
 			// - modules/json-api.php
 			// - modules/latex.php
 			// - modules/markdown.php
 			// - modules/post-by-email.php
 			// - modules/shortcodes.php
 			'Writing' => _x( 'Writing', 'Module Tag', 'jetpack' ),
-
-			// Modules with `Appearance` tag:
-			// - modules/custom-css.php
-			// - modules/gravatar-hovercards.php
-			// - modules/infinite-scroll.php
-			// - modules/photon-cdn.php
-			// - modules/photon.php
-			// - modules/seo-tools.php
-			// - modules/shortcodes.php
-			// - modules/widget-visibility.php
-			// - modules/widgets.php
-			// - modules/wordads.php
-			'Appearance' => _x( 'Appearance', 'Module Tag', 'jetpack' ),
 
 			// Modules with `Fonts` tag:
 			// - modules/google-fonts.php
@@ -339,6 +304,18 @@ function jetpack_get_module_i18n_tag( $key ) {
 			// - modules/stats.php
 			// - modules/woocommerce-analytics.php
 			'Recommended' => _x( 'Recommended', 'Module Tag', 'jetpack' ),
+
+			// Modules with `Appearance` tag:
+			// - modules/gravatar-hovercards.php
+			// - modules/infinite-scroll.php
+			// - modules/photon-cdn.php
+			// - modules/photon.php
+			// - modules/seo-tools.php
+			// - modules/shortcodes.php
+			// - modules/widget-visibility.php
+			// - modules/widgets.php
+			// - modules/wordads.php
+			'Appearance' => _x( 'Appearance', 'Module Tag', 'jetpack' ),
 
 			// Modules with `Developers` tag:
 			// - modules/json-api.php
@@ -382,24 +359,6 @@ function jetpack_get_module_i18n_tag( $key ) {
  */
 function jetpack_get_module_info( $key ) {
 	static $module_info = array (
-	  'action-bar' => 
-	  array (
-	    'name' => 'Action Bar (Experimental)',
-	    'description' => 'An easy to use way for visitors to follow, like, and comment on your site.',
-	    'sort' => '40',
-	    'recommendation_order' => '18',
-	    'introduced' => '11.4',
-	    'changed' => '',
-	    'deactivate' => '',
-	    'free' => '',
-	    'requires_connection' => 'Yes',
-	    'requires_user_connection' => '',
-	    'auto_activate' => 'No',
-	    'module_tags' => 'Social',
-	    'feature' => 'Engagement',
-	    'additional_search_queries' => 'adminbar, actionbar, comments, likes, follow, sharing',
-	    'plan_classes' => '',
-	  ),
 	  'blaze' => 
 	  array (
 	    'name' => 'Blaze',
@@ -525,60 +484,6 @@ function jetpack_get_module_info( $key ) {
 	    'feature' => 'Writing',
 	    'additional_search_queries' => 'cpt, custom post types, portfolio, portfolios, testimonial, testimonials',
 	    'plan_classes' => '',
-	  ),
-	  'custom-css' => 
-	  array (
-	    'name' => 'Custom CSS',
-	    'description' => 'Adds options for CSS preprocessor use, disabling the theme\'s CSS, or custom image width.',
-	    'sort' => '2',
-	    'recommendation_order' => '',
-	    'introduced' => '1.7',
-	    'changed' => '',
-	    'deactivate' => '',
-	    'free' => '',
-	    'requires_connection' => 'No',
-	    'requires_user_connection' => '',
-	    'auto_activate' => 'No',
-	    'module_tags' => 'Appearance',
-	    'feature' => 'Appearance',
-	    'additional_search_queries' => 'css, customize, custom, style, editor, less, sass, preprocessor, font, mobile, appearance, theme, stylesheet',
-	    'plan_classes' => '',
-	  ),
-	  'enhanced-distribution' => 
-	  array (
-	    'name' => 'Enhanced Distribution',
-	    'description' => 'Increase reach and traffic.',
-	    'sort' => '5',
-	    'recommendation_order' => '',
-	    'introduced' => '1.2',
-	    'changed' => '',
-	    'deactivate' => '',
-	    'free' => '',
-	    'requires_connection' => 'Yes',
-	    'requires_user_connection' => '',
-	    'auto_activate' => 'Public',
-	    'module_tags' => 'Writing',
-	    'feature' => 'Engagement',
-	    'additional_search_queries' => 'google, seo, firehose, search, broadcast, broadcasting, creator',
-	    'plan_classes' => '',
-	  ),
-	  'google-analytics' => 
-	  array (
-	    'name' => 'Google Analytics',
-	    'description' => 'Set up Google Analytics without touching a line of code.',
-	    'sort' => '37',
-	    'recommendation_order' => '',
-	    'introduced' => '4.5',
-	    'changed' => '',
-	    'deactivate' => '',
-	    'free' => '',
-	    'requires_connection' => 'Yes',
-	    'requires_user_connection' => '',
-	    'auto_activate' => 'No',
-	    'module_tags' => '',
-	    'feature' => 'Engagement',
-	    'additional_search_queries' => 'webmaster, google, analytics, console',
-	    'plan_classes' => 'business, premium, security, complete',
 	  ),
 	  'google-fonts' => 
 	  array (
@@ -835,7 +740,7 @@ function jetpack_get_module_info( $key ) {
 	  'protect' => 
 	  array (
 	    'name' => 'Brute force protection',
-	    'description' => 'Enabling brute force protection will prevent bots and hackers from attempting to log in to your website with common username and password combinations.',
+	    'description' => 'Prevent bots and hackers from attempting to log in to your website with common username and password combinations.',
 	    'sort' => '1',
 	    'recommendation_order' => '4',
 	    'introduced' => '3.4',
@@ -914,7 +819,7 @@ function jetpack_get_module_info( $key ) {
 	    'changed' => '',
 	    'deactivate' => '',
 	    'free' => '',
-	    'requires_connection' => 'Yes',
+	    'requires_connection' => 'No',
 	    'requires_user_connection' => 'No',
 	    'auto_activate' => 'No',
 	    'module_tags' => 'Social, Appearance',
@@ -1249,11 +1154,10 @@ function jetpack_get_all_module_header_names() {
 function jetpack_has_no_module_info( $slug ) {
 	$no_info_slugs = array (
 	  0 => 'geo-location',
-	  1 => 'lazy-images',
-	  2 => 'module-extras',
-	  3 => 'module-info',
-	  4 => 'plugin-search',
-	  5 => 'theme-tools',
+	  1 => 'module-extras',
+	  2 => 'module-info',
+	  3 => 'plugin-search',
+	  4 => 'theme-tools',
 	);
 
 	return in_array( $slug, $no_info_slugs, true );

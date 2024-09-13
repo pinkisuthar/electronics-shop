@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-post.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Award points for new post //
 function scurf_award_points_for_post($post_id) {
     // Get the post author information
@@ -9,7 +16,7 @@ function scurf_award_points_for_post($post_id) {
     if ($post->post_status == 'publish' && $user_id && !wp_is_post_revision($post_id) && !get_post_meta($post_id, 'points_awarded', true)) {
         $tl_publish_post = get_option('translate_publish_post');
         $tl_commission = get_option('translate_commission');
-        $points_awarded = get_option('points_for_post_published'); // Change this to the desired point value
+        $points_awarded = intval(get_option('points_for_post_published')); // Change this to the desired point value
         $posts_limit = get_option('points_limit_for_daily_post'); // Change this to the desired daily limit
         $today = date('Y-m-d');
         $user_post_count = get_user_meta($user_id, $today, true);

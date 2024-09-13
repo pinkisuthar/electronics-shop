@@ -544,81 +544,47 @@ add_theme_support('automatic-feed-links');
 /* buy now button woocommerce code by WPcookie
  * update: https://redpishi.com/wordpress-tutorials/buy-now-button-woocommerce/
  */
-add_action('wp_footer', function () {
-    if (!is_admin()) {
 
-        // Change button color from here
-        $color = "";
 
-        ?>
-        <style>
-            a.custom-checkout-btn {
-                margin: 0px 5px !important;
-            }
-        </style>
-        <?php 
-    }
-});
+// related product add before reviews Date: 31/08/2024
 
-add_action('woocommerce_after_add_to_cart_button', 'add_custom_addtocart_and_checkout');
-function add_custom_addtocart_and_checkout()
-{
+function move_related_product_before_tabs() {
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+    add_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 5);
+}
+add_action('init', 'move_related_product_before_tabs');
+
+// Save price of percentage on 
+
+function ts_you_save(){
+
     global $product;
 
-    // conditional tags
-    $condition = $product->is_type('simple') || $product->is_type('variable');
+    if($product->is_type('simple') || $product->is_type('external') || $product->is_type('grouped')){
+        $regular_price = get_post_meta($product->get_id(), '_regular_price', true);
+        $sale_price = get_post_meta( $product->get_id(), '_sale_price', true);
 
-    $addtocart_url = wc_get_checkout_url() . '?add-to-cart=' . $product->get_id();
-    $button_class = 'single_add_to_cart_button button alt custom-checkout-btn';
+        if( !empty($sale_price)){
+            $amount_saved = $regular_price - $sale_price;
+            $currency_symbol = get_woocommerce_currency_symbol();
 
-    // Change the text of the buy now button from here
-    $button_text = __("Buy now", "woocommerce");
+            $percentage = round((($regular_price - $sale_price) / $regular_price) * 100 );
 
-    if ($product->is_type('simple')):
-        ?>
-        <script>
-            jQuery(function ($) {
-                var url = '<?php echo $addtocart_url; ?>',
-                    qty = 'input.qty',
-                    button = 'a.custom-checkout-btn';
-
-                // On input/change quantity event
-                $(qty).on('input change', function () {
-                    $(button).attr('href', url + '&quantity=' + $(this).val());
-                });
-            });
-        </script>
-        <?php
-    elseif ($product->is_type('variable')):
-        $addtocart_url = wc_get_checkout_url() . '?add-to-cart=';
-        ?>
-        <script>
-            jQuery(function ($) {
-                var url = '<?php echo $addtocart_url; ?>',
-                    vid = 'input[name="variation_id"]',
-                    pid = 'input[name="product_id"]',
-                    qty = 'input.qty',
-                    button = 'a.custom-checkout-btn';
-                setTimeout(function () {
-                    if ($(vid).val() != '') {
-                        $(button).attr('href', url + $(vid).val() + '&quantity=' + $(qty).val());
-                    }
-                }, 300);
-                $(qty).on('input change', function () {
-                    if ($(vid).val() != '') {
-                        $(button).attr('href', url + $(vid).val() + '&quantity=' + $(this).val());
-                    }
-                });
-                $('.variations_form').on('change blur', 'table.variations select', function () {
-                    if ($(vid).val() != '') {
-                        $(button).attr('href', url + $(vid).val() + '&quantity=' + $(qty).val());
-                    }
-                });
-            });
-        </script>
-    <?php
-    endif;
-    if ($condition) {
-        echo '<a href="' . $addtocart_url . '" class="' . $button_class . '">' . $button_text . '</a>';
+            ?>
+                <p style="font-size:20px;color:red;">
+                    <b>You Save: <?php echo number_format($percentage, 0, '', ''). '%' ; ?></b>
+                </p>
+            <?php
+        }
     }
+}
+add_action( 'woocommerce_single_product_summary', 'ts_you_save', 11);
+
+// referral redirect url
+add_filter( 'afwc_referral_redirection_url', 'storeapps_update_default_url', 10, 2 );
+function storeapps_update_default_url( $url = '', $affiliate_id = 0 ) {
+	if ( ! empty( $affiliate_id ) ) {
+		$url = esc_url( home_url() .'/shop' );    // Replace shop page link without affiliate tracking param with your website's shop page link.
+	}
+	return $url;
 }

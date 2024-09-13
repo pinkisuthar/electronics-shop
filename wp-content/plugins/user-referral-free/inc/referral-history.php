@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-history.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Referral History //
 function scurf_add_history() {
     add_submenu_page(
         'user-referral-free-settings',
-        'All History',
-        'History',
+        __('All History', 'user-referral-free'),
+        __('History', 'user-referral-free'),
         'manage_options',
         'user-referral-free-history',
         'scurf_render_history'
@@ -37,7 +44,7 @@ function scurf_render_history() {
         }
     }           
 
-    if ($search_term) {
+    if (isset($search_term)) {
         $query = $wpdb->prepare("SELECT * FROM $table_name WHERE user_name LIKE %s OR type LIKE %s OR ip_address LIKE %s ORDER BY created_at DESC", $search_term, "%{$search_term}%", "%{$search_term}%", "%{$search_term}%");
     } else {
         $query = "SELECT * FROM $table_name ORDER BY created_at DESC";
@@ -49,9 +56,12 @@ function scurf_render_history() {
 
     $referral_history = $wpdb->get_results($query, ARRAY_A);
 
-    if ($search_term && empty($referral_history)) {
-        echo '<div class="error"><p>No history found!</p></div>';
+    if (isset($search_term) && empty($referral_history)) {
+        echo '<div class="error"><p>'. __('No history found!', 'user-referral-free') .'</p></div>';
         $referral_history = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+        $search_results = 'false';
+    } else {
+        $search_results = 'true';
     }
 
     // Check for multiple Visitors or Signups from the same IP //
@@ -75,7 +85,7 @@ function scurf_render_history() {
         }
     }
 
-    // Display message for multiple Visitors or Signups from the same IP
+    // Display message for multiple Visitors or Accounts from the same IP
     $multiple_ip_message = "";
     foreach ($ip_counts as $ip => $count) {
         if ($count > 2) {
@@ -86,7 +96,7 @@ function scurf_render_history() {
 
     if (!empty($multiple_ip_message)) {
         $multiple_ip_message = rtrim($multiple_ip_message, " / ");
-        echo '<div class="notice notice-warning"><p>Multiple Visitors or Signups found from IP: ' . esc_html($multiple_ip_message) . '.</p></div>';
+        echo '<div class="notice notice-warning is-dismissible"><p>'. __('Multiple Visitors or Accounts found from IP:', 'user-referral-free') .' ' . esc_html($multiple_ip_message) . '.</p></div>';
     }
 ?>
 <div class="section-divider">
@@ -98,15 +108,15 @@ function scurf_render_history() {
         <form method="post">
             <p>
                 <label for="search"><?php _e('Search History:', 'user-referral-free'); ?></label>
-                <input type="text" name="search" value="<?php echo $search_term; ?>" placeholder="Search by user name, ip address and type...">
-                <input type="submit" value="Search" class="button button-search">
+                <input type="text" name="search" value="<?php if (isset($search_term)) {echo $search_term;} ?>" placeholder="<?php _e('Search by user name, ip address and type...', 'user-referral-free'); ?>">
+                <input type="submit" value="<?php _e('Search', 'user-referral-free'); ?>" class="button button-search">
             </p>
         </form>
         <table class="referral-history wp-list-table widefat fixed striped">
             <thead>
                 <tr>
                     <th><?php _e('SL', 'user-referral-free'); ?></th>
-                    <!-- <th><?php _e('ID', 'user-referral-free'); ?></th> -->
+                    <!-- <th><?php //_e('ID', 'user-referral-free'); ?></th> -->
                     <th><?php _e('User', 'user-referral-free'); ?></th>
                     <th><?php _e('Type', 'user-referral-free'); ?></th>
                     <th><?php _e('Points', 'user-referral-free'); ?></th>
@@ -117,12 +127,13 @@ function scurf_render_history() {
             </thead>
             <tbody>
                 <?php 
+                    if ($search_results == 'true') {
                     foreach ($referral_history as $referral): 
                     $formatted_points = number_format($referral['points']);
                 ?>               
                     <tr>
                         <td>#<?php echo esc_html($referral['id']); ?></td>
-                        <!-- <td><?php echo esc_html($referral['user_id']); ?></td> -->
+                        <!-- <td><?php //echo esc_html($referral['user_id']); ?></td> -->
                         <td><a href="<?php echo admin_url(); ?>user-edit.php?user_id=<?php echo esc_html($referral['user_id']); ?>" target="_blank"><?php echo esc_html( $referral['user_name'] ); ?></a></td>
                         <td><?php echo esc_html( $referral['type'] ); ?></td>
                         <td><?php echo esc_html( $formatted_points ); ?></td>
@@ -134,11 +145,16 @@ function scurf_render_history() {
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                <?php } else { ?>    
+                    </tr> 
+                        <td colspan="7"><?php _e('No data.', 'user-referral-free'); ?></td>
+                    <tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
 </div>
-<?php if ($total_pages > 1): ?>
+<?php if ($total_pages > 1 && $search_results == 'true'): ?>
     <div class="pagination">
         <?php
             $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
@@ -180,7 +196,7 @@ function scurf_render_history() {
         // Delete history row
         $(".delete-history").on("click", function() {
             var historyId = $(this).data("history-id");
-            if (confirm("Are you sure you want to delete this history?")) {
+            if (confirm("<?php _e('Are you sure you want to delete this history?', 'user-referral-free'); ?>")) {
                 $.ajax({
                     url: "<?php echo admin_url('admin-ajax.php'); ?>",
                     type: "POST",
@@ -191,18 +207,18 @@ function scurf_render_history() {
                     success: function(response) {
                         if (response.success) {
                             // Row deleted successfully, display a message or perform any other action
-                            alert("History deleted successfully!");
+                            alert("<?php _e('History deleted successfully!', 'user-referral-free'); ?>");
                             // Refresh the page or update the table using JavaScript as per your requirement
                             
                             location.reload(); // Reload the page
                         } else {
                             // Error deleting the row, display an error message or perform any other action
-                            alert("Error deleting history!");
+                            alert("<?php _e('Error deleting history!', 'user-referral-free'); ?>");
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         // Error occurred, display an error message or perform any other action
-                        alert("Error deleting history!");
+                        alert("<?php _e('Error deleting history!', 'user-referral-free'); ?>");
                     }
                 });
             }
@@ -258,7 +274,7 @@ function scurf_history_shortcode($atts) {
     
     // Check if there are no referral history records for the user.
     if (empty($results)) {
-        return 'No history found!';
+        return '<div class="error"><p>'. __('No history found!', 'user-referral-free') .'</p></div>';
     }
     
     // Set the number of records to display per page.
@@ -280,7 +296,7 @@ function scurf_history_shortcode($atts) {
     $results = array_slice($results, $offset, $per_page);
 
     // Build the HTML output for the referral history table.
-    $output = '<table class="referral-history"><thead><tr><th>Type</th><th>Points</th><th>Date</th></tr></thead><tbody>';
+    $output = '<table class="referral-history"><thead><tr><th>'. __('Type', 'scurf') .'</th><th>'. __('Points', 'scurf') .'</th><th>'. __('Date', 'scurf') .'</th></tr></thead><tbody>';
     foreach ($results as $row) {
         $output .= '<tr>';
         $output .= '<td>' . $row->type . '</td>';

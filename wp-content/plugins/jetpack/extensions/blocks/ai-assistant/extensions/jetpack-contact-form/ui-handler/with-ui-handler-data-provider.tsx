@@ -10,7 +10,6 @@ import { useDispatch, useSelect, dispatch } from '@wordpress/data';
 import { useState, useMemo, useCallback, useEffect, useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { store as noticesStore } from '@wordpress/notices';
-import React from 'react';
 /**
  * Internal dependencies
  */
@@ -21,15 +20,11 @@ import { AiAssistantUiContextProvider } from './context';
 /**
  * Types
  */
-import type { Block } from '../../../lib/utils/compare-blocks';
+import type { Block } from '@automattic/jetpack-ai-client';
 import type { RequestingErrorProps } from '@automattic/jetpack-ai-client';
 
 // An identifier to use on the extension error notices,
 export const AI_ASSISTANT_JETPACK_FORM_NOTICE_ID = 'ai-assistant';
-
-type BlockEditorDispatch = {
-	selectBlock: ( clientId: string ) => Promise< void >;
-};
 
 type BlockEditorSelect = {
 	getBlock: ( clientId: string ) => Block;
@@ -44,13 +39,14 @@ type CoreEditorSelect = {
  * based on the block client ID.
  * Then, run the function passed as parameter (optional).
  *
- * @param {string} clientId - The block client ID.
- * @param {Function} fn     - The function to run after selecting the block.
- * @returns {void}
+ * @param {string}   clientId - The block client ID.
+ * @param {Function} fn       - The function to run after selecting the block.
+ * @return {void}
  */
 export function selectFormBlock( clientId: string, fn: () => void ): void {
-	const blockEditorDispatch = dispatch( 'core/block-editor' ) as BlockEditorDispatch;
-	blockEditorDispatch.selectBlock( clientId ).then( fn );
+	const blockEditorDispatch = dispatch( 'core/block-editor' );
+	blockEditorDispatch.selectBlock( clientId );
+	fn?.();
 }
 
 const withUiHandlerDataProvider = createHigherOrderComponent( BlockListBlock => {
@@ -87,7 +83,7 @@ const withUiHandlerDataProvider = createHigherOrderComponent( BlockListBlock => 
 		/**
 		 * Show the AI Assistant
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		const show = useCallback( () => {
 			setAssistantVisibility( true );
@@ -96,7 +92,7 @@ const withUiHandlerDataProvider = createHigherOrderComponent( BlockListBlock => 
 		/**
 		 * Hide the AI Assistant
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		const hide = useCallback( () => {
 			setAssistantVisibility( false );
@@ -105,7 +101,7 @@ const withUiHandlerDataProvider = createHigherOrderComponent( BlockListBlock => 
 		/**
 		 * Toggle the AI Assistant visibility
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		const toggle = useCallback( () => {
 			setAssistantVisibility( ! isVisible );
@@ -126,7 +122,7 @@ const withUiHandlerDataProvider = createHigherOrderComponent( BlockListBlock => 
 		 * Show the error notice
 		 *
 		 * @param {RequestingErrorProps} suggestionError
-		 * @returns {void}
+		 * @return {void}
 		 */
 		const showSuggestionError = useCallback(
 			( { severity, message, code }: RequestingErrorProps ) => {

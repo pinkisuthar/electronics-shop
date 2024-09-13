@@ -2,9 +2,9 @@
 Contributors: keonthemes, kanchha-kaji-prajapati
 Tags: demo data, one click demo import, demo data importer
 Requires at least: 4.6
-Tested up to: 6.4
+Tested up to: 6.6
 Requires PHP: 4.6
-Stable tag: 1.6.4
+Stable tag: 1.8.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,74 @@ https://pxhere.com/en/license [CCO License]
 Keon Toolset
 
 == Changelog ==
+= 1.8.7 =
+* Demo importer update.
+
+= 1.8.6 =
+* Minor functional update.
+
+= 1.8.5 =
+* Child theme compatibility updated.
+
+= 1.8.4 =
+* Child theme compatibility updated.
+
+= 1.8.3 =
+* Child theme compatibility updated.
+
+= 1.8.2 =
+* Child theme compatibility updated.
+
+= 1.8.1 =
+* Child theme compatibility updated.
+
+= 1.8.0 =
+* Child theme compatibility updated.
+
+= 1.7.9 =
+* Child theme compatibility updated.
+
+= 1.7.8 =
+* Child theme compatibility updated.
+
+= 1.7.7 =
+* Child theme compatibility updated.
+
+= 1.7.6 =
+* Child theme compatibility updated.
+
+= 1.7.5 =
+* Child theme compatibility updated.
+
+= 1.7.4 =
+* Child theme compatibility updated.
+
+= 1.7.3 =
+* Child theme compatibility updated.
+
+= 1.7.2 =
+* Child theme compatibility updated.
+
+= 1.7.1 =
+* Child theme compatibility updated.
+
+= 1.7.0 =
+* Child theme compatibility updated.
+
+= 1.6.9 =
+* Child theme compatibility updated.
+
+= 1.6.8 =
+* Child theme compatibility updated.
+
+= 1.6.7 =
+* Child theme compatibility updated.
+
+= 1.6.6 =
+* Child theme compatibility updated.
+
+= 1.6.5 =
+* Child theme compatibility updated.
 
 = 1.6.4 =
 * Child theme compatibility updated.

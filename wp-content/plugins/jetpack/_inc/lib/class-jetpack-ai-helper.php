@@ -208,7 +208,25 @@ class Jetpack_AI_Helper {
 				),
 			);
 
-			$result = ( new OpenAI( 'openai', array( 'post_id' => $post_id ) ) )->request_chat_completion( $data );
+			$openai            = new OpenAI( 'openai', array( 'post_id' => $post_id ) );
+			$moderation_result = $openai->moderate(
+				implode(
+					' ',
+					array_map(
+						function ( $msg ) {
+							return $msg['role'] === 'user' ? $msg['content'] : '';
+						},
+						$data
+					)
+				)
+			);
+
+			if ( is_wp_error( $moderation_result ) ) {
+				return $moderation_result;
+			}
+
+			$max_tokens = 480; // Default
+			$result     = $openai->request_chat_completion( $data, $max_tokens );
 
 			if ( is_wp_error( $result ) ) {
 				return $result;
@@ -348,6 +366,17 @@ class Jetpack_AI_Helper {
 				}
 			}
 
+			if ( ! class_exists( 'WPCOM\Jetpack_AI\Feature_Control' ) ) {
+				if ( is_readable( WP_CONTENT_DIR . '/lib/jetpack-ai/feature-control.php' ) ) {
+					require_once WP_CONTENT_DIR . '/lib/jetpack-ai/feature-control.php';
+				} else {
+					return new WP_Error(
+						'jetpack_ai_feature_control_not_found',
+						__( 'WPCOM\Jetpack_AI\Feature_Control class not found.', 'jetpack' )
+					);
+				}
+			}
+
 			// Determine the upgrade type
 			$upgrade_type = wpcom_is_vip( $blog_id ) ? 'vip' : 'default';
 
@@ -359,10 +388,13 @@ class Jetpack_AI_Helper {
 				'usage-period'         => WPCOM\Jetpack_AI\Usage\Helper::get_period_data( $blog_id ),
 				'site-require-upgrade' => WPCOM\Jetpack_AI\Usage\Helper::site_requires_upgrade( $blog_id ),
 				'upgrade-type'         => $upgrade_type,
+				'upgrade-url'          => WPCOM\Jetpack_AI\Usage\Helper::get_upgrade_url( $blog_id ),
 				'current-tier'         => WPCOM\Jetpack_AI\Usage\Helper::get_current_tier( $blog_id ),
 				'next-tier'            => WPCOM\Jetpack_AI\Usage\Helper::get_next_tier( $blog_id ),
 				'tier-plans'           => WPCOM\Jetpack_AI\Usage\Helper::get_tier_plans_list(),
 				'tier-plans-enabled'   => WPCOM\Jetpack_AI\Usage\Helper::ai_tier_plans_enabled(),
+				'costs'                => WPCOM\Jetpack_AI\Usage\Helper::get_costs(),
+				'features-control'     => WPCOM\Jetpack_AI\Feature_Control::get_features(),
 			);
 		}
 

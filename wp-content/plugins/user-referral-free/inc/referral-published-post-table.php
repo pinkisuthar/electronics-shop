@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-published-post-table.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Get published post list only //
 function scurf_referral_published_post_list_only_shortcode($atts) {
     $tl_publish_post = get_option('translate_publish_post');
@@ -23,7 +30,7 @@ function scurf_referral_published_post_list_only_shortcode($atts) {
     
     // Check if there are no published post records for the user.
     if (empty($results)) {
-        return "<p class='scurf_no_post_history_found'>No published post history found!</p>";
+        return "<p class='scurf_no_post_history_found'>". __('No published post history found!', 'user-referral-free') ."</p>";
     }
     
     // Set the number of records to display per page.
@@ -45,7 +52,7 @@ function scurf_referral_published_post_list_only_shortcode($atts) {
     $results = array_slice($results, $offset, $per_page);
 
     // Build the HTML output for the published post table.
-    $output = '<table class="referral-history"><thead><tr><th>Type</th><th>Points</th><th>Date</th></tr></thead><tbody>';
+    $output = '<table class="referral-history"><thead><tr><th>'. __('Type', 'user-referral-free') .'</th><th>'. __('Points', 'user-referral-free') .'</th><th>'. __('Date', 'user-referral-free') .'</th></tr></thead><tbody>';
     foreach ($results as $row) {
         $output .= '<tr>';
         $output .= '<td>' . $row->type . '</td>';

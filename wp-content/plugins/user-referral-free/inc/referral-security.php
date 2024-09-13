@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-security.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Security Menu //
 function scurf_add_security() {
     add_submenu_page(
         'user-referral-free-settings',
-        'Security Settings',
-        'Security',
+        __('Security Settings', 'user-referral-free'),
+        __('Security', 'user-referral-free'),
         'manage_options',
         'user-referral-free-security',
         'scurf_render_security'
@@ -19,7 +26,7 @@ function scurf_render_security() {
         global $wpdb;
         $table_name = $wpdb->prefix . 'referral_history';
         $wpdb->query("TRUNCATE TABLE $table_name");
-        echo '<div class="notice notice-success is-dismissible"><p>Referral history successfully deleted!</p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p>'. __('Referral history successfully deleted!', 'user-referral-free') .'</p></div>';
     }
 
     // Reset user points meta value to 0 for all users
@@ -29,7 +36,7 @@ function scurf_render_security() {
             delete_user_meta($user->ID, 'user_points');
             update_user_meta($user->ID, 'user_points', 0);
         }
-        echo '<div class="notice notice-success is-dismissible"><p>User points successfully deleted!</p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p>'. __('User points successfully deleted!', 'user-referral-free') .'</p></div>';
     }
     
     // Get total user points //
@@ -95,7 +102,7 @@ function scurf_render_security() {
         <form method="post" action="" <?php scurf_add_alt_class(); ?>>
             <input type="hidden" name="delete_last_history" value="1">
             <?php wp_nonce_field( 'delete_last_history' ); ?>
-            <p><input type="submit" value="Delete <?php echo esc_attr( $history_limit ); ?> History" class="button button-primary" onclick="return confirm('Are you sure you want to delete the last <?php echo esc_js( $history_limit ); ?> history?');"></p>
+            <p><input type="submit" value="<?php _e('Delete', 'user-referral-free'); ?> <?php echo esc_attr( $history_limit ); ?> <?php _e('History', 'user-referral-free'); ?>" class="button button-primary" onclick="return confirm('<?php _e('Are you sure you want to delete the last', 'user-referral-free'); ?> <?php echo esc_js( $history_limit ); ?> <?php _e('history', 'user-referral-free'); ?>?');"></p>
         </form>
 
         <hr>

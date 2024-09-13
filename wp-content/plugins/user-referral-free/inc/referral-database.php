@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-database.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Create database for referral history //
 function scurf_create_history_table() {
     global $wpdb;

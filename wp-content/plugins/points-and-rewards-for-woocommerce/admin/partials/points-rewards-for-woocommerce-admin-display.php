@@ -13,17 +13,18 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-
 }
+
 if ( ! defined( 'WPS_PAR_ONBOARD_PLUGIN_NAME' ) ) {
 	define( 'WPS_PAR_ONBOARD_PLUGIN_NAME', 'Points and Rewards for WooCommerce' );
 }
+
 if ( class_exists( 'WPSwings_Onboarding_Helper' ) ) {
-	$this->onboard = new WPSwings_Onboarding_Helper();
+	$onboard = new WPSwings_Onboarding_Helper();
 }
 
 $wps_wpr_setting_tab = array(
-	'overview-setting'     => array(
+	'overview-setting'      => array(
 		'title'     => __( 'Overview', 'points-and-rewards-for-woocommerce' ),
 		'file_path' => WPS_RWPR_DIR_PATH . '/admin/partials/templates/wps-wpr-overview-settings.php',
 	),
@@ -69,12 +70,6 @@ $wps_wpr_setting_tab = array(
 	),
 );
 
-if ( ! is_plugin_active( 'ultimate-woocommerce-points-and-rewards/ultimate-woocommerce-points-and-rewards.php' ) ) {
-	$wps_wpr_setting_tab['premium_plugin'] = array(
-		'title'     => esc_html__( 'Premium Features', 'points-and-rewards-for-woocommerce' ),
-		'file_path' => WPS_RWPR_DIR_PATH . 'admin/partials/templates/wps-wpr-premium-features.php',
-	);
-}
 $wps_wpr_setting_tab = apply_filters( 'wps_rwpr_add_setting_tab', $wps_wpr_setting_tab );
 
 // check if user is admin.
@@ -85,11 +80,10 @@ if ( ! current_user_can( 'manage_options' ) ) {
 ?>
 <div class="wrap woocommerce" id="wps_rwpr_setting_wrapper">
 	<form enctype="multipart/form-data" action="" id="mainform"  method="post">
-		<div class="wps_wpr_show_version_on_dashboard"><span><?php echo esc_html( 'v' . REWARDEEM_WOOCOMMERCE_POINTS_REWARDS_VERSION ); ?></span></div>
 		<div class="wps_rwpr_header">
 			<div class="wps_rwpr_header_content_left">
 				<div>
-					<h3 class="wps_rwpr_setting_title"><?php esc_html_e( 'Points and Rewards for WooCommerce', 'points-and-rewards-for-woocommerce' ); ?></h3>
+					<h3 class="wps_rwpr_setting_title"><?php esc_html_e( 'Points and Rewards for WooCommerce', 'points-and-rewards-for-woocommerce' ); ?><span><?php echo esc_html( 'v' . REWARDEEM_WOOCOMMERCE_POINTS_REWARDS_VERSION ); ?></span></h3>					
 				</div>
 			</div>
 			<div class="wps_rwpr_header_content_right">
@@ -124,36 +118,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
 				</ul>
 			</div>
 		</div>
-		<?php
-		wp_nonce_field( 'wps-wpr-nonce', 'wps-wpr-nonce' );
-		if ( class_exists( 'Points_Rewards_For_WooCommerce_Admin' ) ) {
-
-			$wps_par_get_count = new Points_Rewards_For_WooCommerce_Admin( 'points-and-rewards-for-woocommerce', '2.1.1' );
-			$wps_pending_par   = $wps_par_get_count->wps_par_get_count( 'wc-pending' );
-			$wps_pending_par   = ! empty( $wps_pending_par ) && is_array( $wps_pending_par ) ? count( $wps_pending_par ) : 0;
-			$wps_count_users   = $wps_par_get_count->wps_par_get_count_users( 'users' );
-			$wps_count_users   = ! empty( $wps_count_users ) && is_array( $wps_count_users ) ? count( $wps_count_users ) : 0;
-			if ( 0 !== $wps_pending_par || 0 !== $wps_count_users ) {
-
-				$wps_par_global_custom_css = 'const triggerError = () => {
-				swal({
-
-					title: "Attention Required!",
-					text: "Please Migrate Your Database Keys First By Clicking On Below Button , Then You can Have Access To Your Dashboard Button",
-					icon: "error",
-					button: "Click To Import",
-					closeOnClickOutside: false,
-				}).then(function() {
-					wps_par_migration_success();
-				});
-			}
-			triggerError();';
-				wp_register_script( 'wps_par_incompatible_css', false, array(), '1.2.8', 'all' );
-				wp_enqueue_script( 'wps_par_incompatible_css' );
-				wp_add_inline_script( 'wps_par_incompatible_css', $wps_par_global_custom_css );
-			}
-		}
-		?>
 		<div class="wps_rwpr_main_template">
 			<div class="wps_rwpr_body_template">
 				<div class="wps_rwpr_mobile_nav">
@@ -162,27 +126,30 @@ if ( ! current_user_can( 'manage_options' ) ) {
 				<div class="wps_rwpr_navigator_template">
 					<div class="hubwoo-navigations">
 						<?php
+						$secure_nonce = wp_create_nonce( 'wps-par-admin-nonce' );
 						if ( ! empty( $wps_wpr_setting_tab ) && is_array( $wps_wpr_setting_tab ) ) {
 							foreach ( $wps_wpr_setting_tab as $key => $wps_tab ) {
-								if ( isset( $_GET['tab'] ) && $_GET['tab'] == $key ) {
-									?>
-									<div class="wps_rwpr_tabs">
-										<a class="wps_gw_nav_tab nav-tab nav-tab-active " href="?page=wps-rwpr-setting&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
-									</div>
-									<?php
-								} else {
-									if ( empty( $_GET['tab'] ) && 'overview-setting' == $key ) {
+								if ( wp_verify_nonce( $secure_nonce, 'wps-par-admin-nonce' ) ) {
+									if ( isset( $_GET['tab'] ) && $_GET['tab'] == $key ) {
 										?>
 										<div class="wps_rwpr_tabs">
-											<a class="wps_gw_nav_tab nav-tab nav-tab-active" href="?page=wps-rwpr-setting&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
+											<a class="wps_gw_nav_tab nav-tab nav-tab-active " href="?page=wps-rwpr-setting&nonce=<?php echo esc_html( wp_create_nonce( 'par_main_setting' ) ); ?>&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
 										</div>
 										<?php
 									} else {
-										?>
-										<div class="wps_rwpr_tabs">
-											<a class="wps_gw_nav_tab nav-tab " href="?page=wps-rwpr-setting&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
-										</div>
-										<?php
+										if ( empty( $_GET['tab'] ) && 'overview-setting' == $key ) {
+											?>
+											<div class="wps_rwpr_tabs">
+												<a class="wps_gw_nav_tab nav-tab nav-tab-active" href="?page=wps-rwpr-setting&nonce=<?php echo esc_html( wp_create_nonce( 'par_main_setting' ) ); ?>&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
+											</div>
+											<?php
+										} else {
+											?>
+											<div class="wps_rwpr_tabs">
+												<a class="wps_gw_nav_tab nav-tab " href="?page=wps-rwpr-setting&nonce=<?php echo esc_html( wp_create_nonce( 'par_main_setting' ) ); ?>&tab=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_tab['title'] ); ?></a>
+											</div>
+											<?php
+										}
 									}
 								}
 							}
@@ -194,23 +161,26 @@ if ( ! current_user_can( 'manage_options' ) ) {
 					<img src="<?php echo esc_url( WPS_RWPR_DIR_URL ); ?>public/images/loading.gif">
 				</div>
 				<?php
+				$secure_nonce = wp_create_nonce( 'wps-par-admin-nonce' );
 				if ( ! empty( $wps_wpr_setting_tab ) && is_array( $wps_wpr_setting_tab ) ) {
 
 					foreach ( $wps_wpr_setting_tab as $key => $wps_file ) {
-						if ( isset( $_GET['tab'] ) && $_GET['tab'] == $key ) {
-							$include_tab = $wps_file['file_path'];
-							?>
-							<div class="wps_rwpr_content_template">
-								<?php include_once $include_tab; ?>
-							</div>
-							<?php
-						} elseif ( empty( $_GET['tab'] ) && 'overview-setting' == $key ) {
-							?>
-							<div class="wps_rwpr_content_template">
-								<?php include_once $wps_file['file_path']; ?>
-							</div>
-							<?php
-							break;
+						if ( wp_verify_nonce( $secure_nonce, 'wps-par-admin-nonce' ) ) {
+							if ( isset( $_GET['tab'] ) && $_GET['tab'] == $key ) {
+								$include_tab = $wps_file['file_path'];
+								?>
+								<div class="wps_rwpr_content_template">
+									<?php include_once $include_tab; ?>
+								</div>
+								<?php
+							} elseif ( empty( $_GET['tab'] ) && 'overview-setting' == $key ) {
+								?>
+								<div class="wps_rwpr_content_template">
+									<?php include_once $wps_file['file_path']; ?>
+								</div>
+								<?php
+								break;
+							}
 						}
 					}
 				}

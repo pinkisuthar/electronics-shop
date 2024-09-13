@@ -38,7 +38,9 @@ class ElementsKit_Widget_Testimonial extends Widget_Base {
     public function get_help_url() {
         return 'https://wpmet.com/doc/how-to-create-testimonials-in-wordpress/';
     }
-
+    protected function is_dynamic_content(): bool {
+        return false;
+    }
     protected function register_controls() {
 
         $this->start_controls_section(
@@ -403,6 +405,7 @@ class ElementsKit_Widget_Testimonial extends Widget_Base {
         $repeater->add_control(
             'use_hover_logo', [
 				'label' => esc_html__( 'Display different logo on hover?', 'elementskit-lite' ),
+				'description' => esc_html__( 'This option only work for style 1 & 2', 'elementskit-lite' ),
 				'type' => Controls_Manager::SWITCHER,
 				'label_on' => esc_html__( 'Yes', 'elementskit-lite' ),
 				'label_off' => esc_html__( 'No', 'elementskit-lite' ),
@@ -2449,13 +2452,21 @@ class ElementsKit_Widget_Testimonial extends Widget_Base {
 			]
 		);
 		
-		$dir_common = Handler::get_dir() .'common/';
+		$dir_common = Handler::get_dir() . 'common/';
 
-        $testimonials = isset($ekit_testimonial_data) ? $ekit_testimonial_data : [];
-		$style = isset($ekit_testimonial_style) ? $ekit_testimonial_style : 'default';
+		$testimonials = isset($ekit_testimonial_data) ? $ekit_testimonial_data : [];
+		$style = isset($ekit_testimonial_style) ? sanitize_text_field($ekit_testimonial_style) : 'default';
+		$styles = [
+			'style1',
+			'style2',
+			'style3',
+			'style4',
+			'style5',
+			'style6',
+		];
 
-		if (is_array($testimonials) && !empty($testimonials)):
-			require Handler::get_dir() . 'style/'.$style.'.php';
-	 	endif; // end if check testimonila array
-    }
+		if (in_array($style, $styles) && is_array($testimonials) && !empty($testimonials)) {
+			require Handler::get_dir() . 'style/' . $style . '.php';
+		}
+	}
 }

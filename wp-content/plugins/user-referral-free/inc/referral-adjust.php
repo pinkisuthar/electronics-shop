@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-adjust.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Adjust Points //
 function scurf_add_adjust() {
     add_submenu_page(
         'user-referral-free-settings',
-        'Adjust Points',
-        'Adjust',
+        __('Adjust Points', 'user-referral-free'),
+        __('Adjust', 'user-referral-free'),
         'manage_options',
         'user-referral-free-adjust',
         'scurf_render_adjust'
@@ -29,25 +36,15 @@ function scurf_render_adjust() {
                 <?php _e('PRO', 'user-referral-free'); ?>
             </span>
         </h2>
-        <?php 
-            if(isset($_GET['user_id'])) {
-                // $get_id = $_GET['user_id'];
-                $get_id = absint($_GET['user_id']);
-                $readonly = 'readonly=""';
-            } else {
-                // $get_id = $get_user_id;
-                $get_id = absint($get_user_id);
-            }
-        ?>
 		<form method="post">
 			<table class="referral-table">
 				<tr <?php scurf_add_alt_class(); ?>>
 					<th><label for="user_id"><?php _e('User ID', 'user-referral-free'); ?></label></th>
-					<td><input type="number" id="user_id" name="user_id" min="1" placeholder="Enter any user id" value="<?php echo esc_attr($get_id); ?>" <?php echo $readonly; ?>></td>
+					<td><input type="number" id="user_id" name="user_id" min="1" placeholder="Enter any user id"></td>
 				</tr>
 				<tr <?php scurf_add_alt_class(); ?>>
 					<th><label for="points"><?php _e('Points', 'user-referral-free'); ?></label></th>
-					<td><input type="number" id="points" name="points" min="0" placeholder="Enter points amount" value="<?php echo esc_attr($get_points); ?>"></td>
+					<td><input type="number" id="points" name="points" placeholder="Enter points amount"></td>
 				</tr>
 				<tr <?php scurf_add_alt_class(); ?>>
 					<th><label for="operation"><?php _e('Operation', 'user-referral-free'); ?></label></th>
@@ -63,11 +60,11 @@ function scurf_render_adjust() {
 				</tr>
                 <tr <?php scurf_add_alt_class(); ?>>
                     <th><label for="reason"><?php _e('Reason', 'user-referral-free'); ?></label></th>
-                    <td><input type="text" id="reason" name="reason" placeholder="Type reason (optional)" value="<?php echo esc_attr($get_reason); ?>"></td>
+                    <td><input type="text" id="reason" name="reason" placeholder="Type reason (optional)"></td>
                 </tr>
 			</table>
 			<div class="button-space">
-				<input type="submit" name="submit_single" value="Submit" class="button button-primary">
+				<input type="submit" name="submit_single" value="<?php _e('Submit', 'user-referral-free'); ?>" class="button button-primary">
 			</div>
 		</form>
 	</div>
@@ -87,16 +84,17 @@ function scurf_render_adjust() {
                     <th><label for="user_roles"><?php _e('User Roles', 'user-referral-free'); ?></label></th>
                     <td>
                         <?php
-                        $roles = get_editable_roles();
-                        foreach ( $roles as $role_key => $role ) {
-                            echo '<label class="role_name"><input type="checkbox" name="user_roles[]" value="' . esc_attr( $role_key ) . '"> ' . esc_html( $role['name'] ) . '</label>';
-                        }
+                            // Roles
+                            $roles = get_editable_roles();
+                            foreach ( $roles as $role_key => $role ) {
+                                echo '<label class="role_name"><input type="checkbox" name="user_roles[]" value="' . esc_attr( $role_key ) . '"> ' . esc_html( $role['name'] ) . '</label>';
+                            }
                         ?>
                     </td>
                 </tr>
 				<tr <?php scurf_add_alt_class(); ?>>
 					<th><label for="points"><?php _e('Points', 'user-referral-free'); ?></label></th>
-					<td><input type="number" id="points" name="points" min="0" placeholder="Enter points amount" value="<?php echo esc_attr($get_points); ?>"></td>
+					<td><input type="number" id="points" name="points" min="0" placeholder="Enter points amount"></td>
 				</tr>
 				<tr <?php scurf_add_alt_class(); ?>>
 					<th><label for="operation"><?php _e('Operation', 'user-referral-free'); ?></label></th>
@@ -112,11 +110,11 @@ function scurf_render_adjust() {
 				</tr>
                 <tr <?php scurf_add_alt_class(); ?>>
                     <th><label for="reason"><?php _e('Reason', 'user-referral-free'); ?></label></th>
-                    <td><input type="text" id="reason" name="reason" placeholder="Type reason (optional)" value="<?php echo esc_attr($get_reason); ?>"></td>
+                    <td><input type="text" id="reason" name="reason" placeholder="Type reason (optional)"></td>
                 </tr>
 			</table>
 			<div class="button-space">
-				<input type="submit" name="submit_bulk" value="Submit" class="button button-primary">
+				<input type="submit" name="submit_bulk" value="<?php _e('Submit', 'user-referral-free'); ?>" class="button button-primary">
 			</div>
 		</form>
 	</div>

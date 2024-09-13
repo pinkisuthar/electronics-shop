@@ -16,6 +16,7 @@ use MailPoet\Cron\CronTrigger;
 use MailPoet\Cron\DaemonActionSchedulerRunner;
 use MailPoet\EmailEditor\Engine\EmailEditor;
 use MailPoet\EmailEditor\Integrations\Core\Initializer as CoreEmailEditorIntegration;
+use MailPoet\EmailEditor\Integrations\MailPoet\Blocks\BlockTypesController;
 use MailPoet\EmailEditor\Integrations\MailPoet\EmailEditor as MailpoetEmailEditorIntegration;
 use MailPoet\Features\FeaturesController;
 use MailPoet\InvalidStateException;
@@ -26,7 +27,7 @@ use MailPoet\Router;
 use MailPoet\Settings\SettingsController;
 use MailPoet\Statistics\Track\SubscriberActivityTracker;
 use MailPoet\Util\ConflictResolver;
-use MailPoet\Util\Helpers;
+use MailPoet\Util\LegacyDatabase;
 use MailPoet\Util\Notices\PermanentNotices;
 use MailPoet\Util\Url;
 use MailPoet\WooCommerce\Helper as WooCommerceHelper;
@@ -80,9 +81,6 @@ class Initializer {
   /** @var Shortcodes */
   private $shortcodes;
 
-  /** @var DatabaseInitializer */
-  private $databaseInitializer;
-
   /** @var WCTransactionalEmails */
   private $wcTransactionalEmails;
 
@@ -134,6 +132,9 @@ class Initializer {
   /** @var CoreEmailEditorIntegration */
   private $coreEmailEditorIntegration;
 
+  /** @var BlockTypesController */
+  private $blockTypesController;
+
   /** @var FeaturesController */
   private $featureController;
 
@@ -159,7 +160,6 @@ class Initializer {
     CronTrigger $cronTrigger,
     PermanentNotices $permanentNotices,
     Shortcodes $shortcodes,
-    DatabaseInitializer $databaseInitializer,
     WCTransactionalEmails $wcTransactionalEmails,
     PostEditorBlock $postEditorBlock,
     WooCommerceBlocksIntegration $woocommerceBlocksIntegration,
@@ -175,6 +175,7 @@ class Initializer {
     PersonalDataExporters $personalDataExporters,
     DaemonActionSchedulerRunner $actionSchedulerRunner,
     EmailEditor $emailEditor,
+    BlockTypesController $blockTypesController,
     MailpoetEmailEditorIntegration $mailpoetEmailEditorIntegration,
     CoreEmailEditorIntegration $coreEmailEditorIntegration,
     FeaturesController $featureController,
@@ -194,7 +195,6 @@ class Initializer {
     $this->cronTrigger = $cronTrigger;
     $this->permanentNotices = $permanentNotices;
     $this->shortcodes = $shortcodes;
-    $this->databaseInitializer = $databaseInitializer;
     $this->wcTransactionalEmails = $wcTransactionalEmails;
     $this->wcHelper = $wcHelper;
     $this->postEditorBlock = $postEditorBlock;
@@ -212,6 +212,7 @@ class Initializer {
     $this->emailEditor = $emailEditor;
     $this->mailpoetEmailEditorIntegration = $mailpoetEmailEditorIntegration;
     $this->coreEmailEditorIntegration = $coreEmailEditorIntegration;
+    $this->blockTypesController = $blockTypesController;
     $this->featureController = $featureController;
     $this->urlHelper = $urlHelper;
   }
@@ -220,20 +221,11 @@ class Initializer {
     // Initialize Action Scheduler. It needs to be called early because it hooks into `plugins_loaded`.
     require_once __DIR__ . '/../../vendor/woocommerce/action-scheduler/action-scheduler.php';
 
+    // define legacy constants for DB tables - for back compatibility
+    LegacyDatabase::defineTableConstants();
+
     // load translations and setup translations update/download
     $this->setupLocalizer();
-
-    try {
-      $this->databaseInitializer->initializeConnection();
-    } catch (\Exception $e) {
-      return WPNotice::displayError(Helpers::replaceLinkTags(
-        __('Unable to connect to the database (the database is unable to open a file or folder), the connection is likely not configured correctly. Please read our [link] Knowledge Base article [/link] for steps how to resolve it.', 'mailpoet'),
-        'https://kb.mailpoet.com/article/200-solving-database-connection-issues',
-        [
-          'target' => '_blank',
-        ]
-      ));
-    }
 
     // activation function
     $this->wpFunctions->registerActivationHook(
@@ -257,6 +249,11 @@ class Initializer {
       new PluginActivatedHook(new DeferredAdminNotices),
       'action',
     ], 10, 2);
+
+    $this->wpFunctions->addAction('plugins_loaded', [
+      $this,
+      'pluginsLoaded',
+    ], 0);
 
     $this->wpFunctions->addAction('init', [
       $this,
@@ -327,11 +324,14 @@ class Initializer {
     }
   }
 
+  public function pluginsLoaded() {
+    $this->hooks->init();
+  }
+
   public function preInitialize() {
     try {
       $this->renderer = $this->rendererFactory->getRenderer();
       $this->setupWidget();
-      $this->hooks->init();
       $this->setupWoocommerceTransactionalEmails();
       $this->assetsLoader->loadStyles();
     } catch (\Exception $e) {
@@ -370,8 +370,8 @@ class Initializer {
       $this->postEditorBlock->init();
       $this->automationEngine->initialize();
       if ($this->featureController->isSupported(FeaturesController::GUTENBERG_EMAIL_EDITOR)) {
+        $this->blockTypesController->initialize();
         $this->emailEditor->initialize();
-        $this->maybeRedirectEditor();
       }
       $this->wpFunctions->doAction('mailpoet_initialized', MAILPOET_VERSION);
     } catch (InvalidStateException $e) {
@@ -587,25 +587,5 @@ class Initializer {
   private function setupDeactivationPoll(): void {
     $deactivationPoll = new DeactivationPoll($this->wpFunctions, $this->renderer);
     $deactivationPoll->init();
-  }
-
-  private function maybeRedirectEditor() {
-    if (!isset($_GET['page']) || $_GET['page'] !== 'mailpoet-email-editor') {
-      return;
-    }
-    $postId = isset($_GET['postId']) ? intval($_GET['postId']) : 0;
-    $post = get_post($postId);
-    if (!$post instanceof \WP_Post || $post->post_type !== \MailPoet\EmailEditor\Integrations\MailPoet\EmailEditor::MAILPOET_EMAIL_POST_TYPE) { // phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
-      $postId = wp_insert_post([
-        'post_title' => 'New Email',
-        'post_content' => '',
-        'post_status' => 'draft',
-        'post_author' => get_current_user_id(),
-        'post_type' => \MailPoet\EmailEditor\Integrations\MailPoet\EmailEditor::MAILPOET_EMAIL_POST_TYPE,
-      ]);
-      wp_safe_redirect(
-        admin_url('admin.php?page=mailpoet-email-editor&postId=' . $postId)
-      );
-    }
   }
 }

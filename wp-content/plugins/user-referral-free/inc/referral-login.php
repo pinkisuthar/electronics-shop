@@ -1,9 +1,16 @@
 <?php
+/*
+	* Page Name: 		referral-login.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Award points for login per day //
 function scurf_award_points_for_login($user_login, $user) {
     $tl_daily_login = get_option('translate_daily_login');
     
-    $points_awarded = get_option('points_for_daily_login'); // Change this to the desired point value
+    $points_awarded = intval(get_option('points_for_daily_login')); // Change this to the desired point value
     $daily_login_limit = 1; // Change this to the desired daily limit
     $user_id = $user->ID;
     $user_points = get_user_meta($user_id, 'user_points', true);

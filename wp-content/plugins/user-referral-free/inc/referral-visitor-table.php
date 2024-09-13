@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-visitor-table.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Get referral visitor list only //
 function scurf_visitor_list_only_shortcode($atts) {
     $tl_refer_visitor = get_option('translate_refer_visitor');
@@ -23,7 +30,7 @@ function scurf_visitor_list_only_shortcode($atts) {
     
     // Check if there are no referral history records for the user.
     if (empty($results)) {
-        return "<p class='scurf_no_visitor_history_found'>No referral visitor history found!</p>";
+        return "<p class='scurf_no_visitor_history_found'>". __('No referral visitor history found!', 'user-referral-free') ."</p>";
     }
     
     // Set the number of records to display per page.
@@ -45,7 +52,7 @@ function scurf_visitor_list_only_shortcode($atts) {
     $results = array_slice($results, $offset, $per_page);
 
     // Build the HTML output for the referral history table.
-    $output = '<table class="referral-history"><thead><tr><th>Type</th><th>Points</th><th>Date</th></tr></thead><tbody>';
+    $output = '<table class="referral-history"><thead><tr><th>'. __('Type', 'user-referral-free') .'</th><th>'. __('Points', 'user-referral-free') .'</th><th>'. __('Date', 'user-referral-free') .'</th></tr></thead><tbody>';
     foreach ($results as $row) {
         $output .= '<tr>';
         $output .= '<td>' . $row->type . '</td>';

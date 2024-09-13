@@ -1429,6 +1429,38 @@ button.wps_wpr_container-popup-claim:focus {
 
 /* Audio effects end */
 
+#wps_wpr_button_to_add_points_section+.woocommerce-error.wps_error {
+    margin: 10px 0 0;
+    padding: 3px 3px 3px 20px;
+    border-width: 5px;
+}
+
+#wps_wpr_button_to_add_points_section+.woocommerce-error.wps_error::before {
+    left: 4px;
+    top: 1px;
+    font-size: 12px;
+}
+
+#wps_wpr_button_to_add_points_section+.woocommerce-error.wps_error li {
+    line-height: 1.25;
+    font-size: 12px;
+}
+
+.wps_wpr_slide_toggle .wps_wpr_points_view {
+    overflow: auto;
+    display: none;
+}
+
+.wps_wpr_slide_toggle .wps_wpr_points_view table th {
+    min-width: 155px;
+    width: 100%;
+}
+
+.wps_wpr_slide_toggle .wps_wpr_points_view table {
+    min-width: 375px;
+    display: block;
+}
+
 /* Media screen start */
 
 
@@ -1471,3 +1503,18 @@ div#wps_wpr_button_to_add_points_section {
 /* Media screen end */
 
 /* Win wheel main end */
+
+/* Referral CSS */
+
+span.wps_wpr_all_referral_name {
+
+    display: inline-block;
+}
+
+span.wps_wpr_all_referral_view {
+    display: none;
+}
+
+span.wps_wpr_all_referral_name:hover~span.wps_wpr_all_referral_view, span.wps_wpr_all_referral_view:hover {
+    display: inline-block;
+}

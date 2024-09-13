@@ -1,14 +1,20 @@
 <?php
+/*
+	* Page Name: 		referral-settings.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 /* Register Referral */
 function scurf_add_settings() {
     add_menu_page(
-        'Referral Settings', // page title
-        'Referral', // menu title
-        'manage_options', // capability
-        'user-referral-free-settings', // menu slug
-        'scurf_render_settings', // callback function
-        'dashicons-admin-links' // icon url or icon class name
-        //plugins_url( '../img/plugin-icon.png', __FILE__ ) // icon url or icon class name
+        __('Referral Settings', 'user-referral-free'),
+        __('Referral', 'user-referral-free'),
+        'manage_options',
+        'user-referral-free-settings',
+        'scurf_render_settings',
+        'dashicons-admin-links'
     );
 }
 add_action('admin_menu', 'scurf_add_settings');
@@ -75,13 +81,18 @@ function scurf_render_settings() {
 ?>
 <div class="section-divider">
     <?php 
+        // Status
         if (isset($_GET['status']) && $_GET['status'] == 1) { 
-        $message = '<div class="error notice"><p>Please make sure you fill all fields!</p></div>';
+            $message = '<div class="error notice is-dismissible"><p>'. __('Please make sure you fill all fields!', 'user-referral-free') .'</p></div>';
+
         } elseif (isset($_GET['updated']) && $_GET['updated'] == 'true') {
-        $message = '<div class="updated notice"><p>Your changes have been saved.</p></div>';
+            $message = '<div class="updated notice is-dismissible"><p>'. __('Your changes have been saved.', 'user-referral-free') .'</p></div>';
         }
-        //echo $message; 
-        echo wp_kses_post($message);
+
+        // Message
+        if (isset($message)) {
+            echo wp_kses_post($message);
+        }
     ?>
     
     <?php require_once plugin_dir_path(__FILE__)."../core/referral-premium.php"; ?>
@@ -699,7 +710,7 @@ function scurf_render_settings() {
 
                     <?php
                         // Auto filled if empty //
-                        if(empty(esc_attr($scurf_timezone))) { 
+                        if (empty($scurf_timezone)) {
                             update_option('scurf_timezone', 'Asia/Dhaka');
                         }
                     ?>
@@ -708,8 +719,8 @@ function scurf_render_settings() {
 
             <?php wp_nonce_field( 'scurf_save_system_settings' ); ?>
             <div class="button-space">
-                <input type="submit" value="Save Changes" class="button button-primary" />
-                <input type="submit" value="Reset" style="color: #fff! important;" class="button button-reset" onclick="document.getElementsByName('signup_referral_points')[00].value='00';document.getElementsByName('visitor_referral_points')[00].value='00';document.getElementsByName('points_for_new_register')[00].value='00';document.getElementsByName('points_for_daily_login')[00].value='00';document.getElementsByName('points_for_post_published')[00].value='00';document.getElementsByName('points_limit_for_daily_post')[00].value='00';document.getElementsByName('points_for_comment_approved')[00].value='00';document.getElementsByName('custom_post_types')[00].value='post_type_1,post_type_2';document.getElementsByName('custom_post_types_point')[00].value='00';document.getElementsByName('points_type_for_woocommerce_order')[00].value='fixed';document.getElementsByName('fixed_points_for_woocommerce_order_completed')[00].value='00';document.getElementsByName('percentage_points_for_woocommerce_order_completed')[00].value='00';document.getElementsByName('minimum_woocommerce_order_amount_required')[00].value='00';document.getElementsByName('min_points_transfer_amount')[00].value='00';document.getElementsByName('max_points_transfer_amount')[00].value='00';document.getElementsByName('points_for_commission')[00].value='00';document.getElementsByName('translate_refer_visitor')[00].value='Refer Visitor';document.getElementsByName('translate_refer_signup')[00].value='Refer Signup';document.getElementsByName('translate_new_register')[00].value='Account Creation';document.getElementsByName('translate_daily_login')[00].value='Daily Login';document.getElementsByName('translate_publish_post')[00].value='Publish Post';document.getElementsByName('translate_approved_comment')[00].value='Post Comment';document.getElementsByName('translate_custom_post')[00].value='Custom Post';document.getElementsByName('translate_woocommerce_order')[00].value='Product Order';document.getElementsByName('translate_commission')[00].value='Commission';document.getElementsByName('translate_points_give')[00].value='Points Given';document.getElementsByName('translate_points_deduct')[00].value='Points Deducted';document.getElementsByName('translate_points_added')[00].value='Points Added';document.getElementsByName('translate_points_removed')[00].value='Points Removed';document.getElementsByName('translate_points_transferred')[00].value='Points Transferred';document.getElementsByName('translate_points_received')[00].value='Points Received';document.getElementsByName('all_history_count')[00].value='10';document.getElementsByName('top_users_count')[00].value='10';document.getElementsByName('last_history_count')[00].value='100';document.getElementsByName('last_history_type')[00].value='oldest';document.getElementsByName('scurf_timezone')[00].value='Asia/Dhaka';document.getElementsByName('signup_link')[0].value='<?php echo esc_attr(site_url('/register/')); ?>';"/>
+                <input type="submit" value="<?php _e('Save Changes', 'user-referral-free'); ?>" class="button button-primary" />
+                <input type="submit" value="<?php _e('Reset', 'user-referral-free'); ?>" style="color: #fff! important;" class="button button-reset" onclick="document.getElementsByName('signup_referral_points')[00].value='00';document.getElementsByName('visitor_referral_points')[00].value='00';document.getElementsByName('points_for_new_register')[00].value='00';document.getElementsByName('points_for_daily_login')[00].value='00';document.getElementsByName('points_for_post_published')[00].value='00';document.getElementsByName('points_limit_for_daily_post')[00].value='00';document.getElementsByName('points_for_comment_approved')[00].value='00';document.getElementsByName('custom_post_types')[00].value='post_type_1,post_type_2';document.getElementsByName('custom_post_types_point')[00].value='00';document.getElementsByName('points_type_for_woocommerce_order')[00].value='fixed';document.getElementsByName('fixed_points_for_woocommerce_order_completed')[00].value='00';document.getElementsByName('percentage_points_for_woocommerce_order_completed')[00].value='00';document.getElementsByName('minimum_woocommerce_order_amount_required')[00].value='00';document.getElementsByName('min_points_transfer_amount')[00].value='00';document.getElementsByName('max_points_transfer_amount')[00].value='00';document.getElementsByName('points_for_commission')[00].value='00';document.getElementsByName('translate_refer_visitor')[00].value='Refer Visitor';document.getElementsByName('translate_refer_signup')[00].value='Refer Signup';document.getElementsByName('translate_new_register')[00].value='Account Creation';document.getElementsByName('translate_daily_login')[00].value='Daily Login';document.getElementsByName('translate_publish_post')[00].value='Publish Post';document.getElementsByName('translate_approved_comment')[00].value='Post Comment';document.getElementsByName('translate_custom_post')[00].value='Custom Post';document.getElementsByName('translate_woocommerce_order')[00].value='Product Order';document.getElementsByName('translate_commission')[00].value='Commission';document.getElementsByName('translate_points_give')[00].value='Points Given';document.getElementsByName('translate_points_deduct')[00].value='Points Deducted';document.getElementsByName('translate_points_added')[00].value='Points Added';document.getElementsByName('translate_points_removed')[00].value='Points Removed';document.getElementsByName('translate_points_transferred')[00].value='Points Transferred';document.getElementsByName('translate_points_received')[00].value='Points Received';document.getElementsByName('all_history_count')[00].value='10';document.getElementsByName('top_users_count')[00].value='10';document.getElementsByName('last_history_count')[00].value='100';document.getElementsByName('last_history_type')[00].value='oldest';document.getElementsByName('scurf_timezone')[00].value='Asia/Dhaka';document.getElementsByName('signup_link')[0].value='<?php echo esc_attr(site_url('/register/')); ?>';"/>
             </div>
         </form>
     </div>

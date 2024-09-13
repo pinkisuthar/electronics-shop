@@ -1,0 +1,12 @@
+2024-08-13T11:37:05+06:00 CRITICAL Uncaught Error: Call to undefined function get_core_updates() in /var/www/html/electronics_shop/wp-admin/includes/class-wp-debug-data.php:50
+Stack trace:
+#0 /var/www/html/electronics_shop/wp-content/plugins/advanced-import/admin/class-advanced-import-tracking.php(244): WP_Debug_Data::debug_data()
+#1 /var/www/html/electronics_shop/wp-content/plugins/advanced-import/admin/class-advanced-import-tracking.php(269): Advanced_Import_Tracking->get_data()
+#2 /var/www/html/electronics_shop/wp-content/plugins/advanced-import/admin/class-advanced-import-tracking.php(307): Advanced_Import_Tracking->setup_data()
+#3 /var/www/html/electronics_shop/wp-includes/class-wp-hook.php(324): Advanced_Import_Tracking->do_post()
+#4 /var/www/html/electronics_shop/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters()
+#5 /var/www/html/electronics_shop/wp-includes/plugin.php(565): WP_Hook->do_action()
+#6 /var/www/html/electronics_shop/wp-cron.php(191): do_action_ref_array()
+#7 {main}
+  thrown in /var/www/html/electronics_shop/wp-admin/includes/class-wp-debug-data.php on line 50
+

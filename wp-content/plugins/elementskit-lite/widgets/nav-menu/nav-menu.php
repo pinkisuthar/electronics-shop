@@ -39,6 +39,9 @@ class ElementsKit_Widget_Nav_Menu extends Widget_Base {
     public function get_help_url() {
         return 'https://wpmet.com/doc/nav-menu/';
     }
+    protected function is_dynamic_content(): bool {
+        return true;
+    }
 
     public function get_menus(){
         $list = [];
@@ -1701,6 +1704,7 @@ class ElementsKit_Widget_Nav_Menu extends Widget_Base {
 				'elementskit_line_arrow' => 'icon-down-arrow1',
 				'elementskit_plus_icon' => 'icon-plus',
 				'elementskit_fill_arrow' => 'icon-arrow-point-to-down',
+				'elementskit_none' => 'icon-none'
 			];
 
 			$selected_arrow = $elementskit_style_tab_submenu_item_arrow;

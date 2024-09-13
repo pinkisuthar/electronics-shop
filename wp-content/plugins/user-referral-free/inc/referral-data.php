@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-data.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Delete referral history table when the plugin is deactivated //
 function scurf_delete_data_on_deactivated() {
     $delete_data_option = get_option('delete_data_on_deactivate');

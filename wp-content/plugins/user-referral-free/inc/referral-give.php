@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-give.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Page Give Points //
 function scurf_give_points_shortcode($atts) {
     $tl_points_give = get_option('translate_points_give');
@@ -82,9 +89,9 @@ function scurf_give_points_shortcode($atts) {
             update_user_meta($user_id, 'points_given_today_' . $type . '_' . $date, $points_given_today + 1);
         }
 
-        return 'You have received <b>' . $amount . '</b> points!';
+        return ''. __('You have received', 'user-referral-free') .' <b>' . $amount . '</b> '. __('points', 'user-referral-free') .'!';
     } else {
-        return 'You have reached the daily limit for ( ' . $type . ' ).';
+        return ''. __('You have reached the daily limit for', 'user-referral-free') .' ( ' . $type . ' ).';
     }
 }
 add_shortcode('give_points', 'scurf_give_points_shortcode');

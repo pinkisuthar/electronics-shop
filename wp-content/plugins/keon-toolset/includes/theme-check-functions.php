@@ -1,5 +1,8 @@
 <?php
-
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 if( ( keon_toolset_theme_check( 'bosa' ) && !keon_toolset_theme_check( 'bosa-pro' ) ) || ( keon_toolset_theme_check( 'gutener' ) && !keon_toolset_theme_check( 'gutener-pro' ) ) ){
     require KEON_TOOLSET_PATH . 'includes/upsell.php';
     // Add customizer upsell section.

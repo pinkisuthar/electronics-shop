@@ -1,10 +1,17 @@
 <?php
+/*
+	* Page Name: 		referral-dashboard.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Add Custom Dashboard Widget //
 function scurf_add_user_points_dashboard_widget() {
     if (current_user_can('administrator')) {
         wp_add_dashboard_widget(
             'scurf-user-points-widget',
-            'User Points',
+            __('User Points', 'user-referral-free'),
             'scurf_render_user_points_dashboard_widget'
         );
     }
@@ -35,7 +42,7 @@ function scurf_display_user_points_count() {
     // Output total points count //
     //echo '<div class="dashboard-points"><strong>Total User Points:</strong> <span class="button-primary">' . number_format($total_points) . '</span></div>';
 
-    echo '<div class="dashboard-points"><strong>Total User Points:</strong> <span class="button-primary">' . esc_html(number_format($total_points)) . '</span></div>';
+    echo '<div class="dashboard-points"><strong>'. __('Total User Points:', 'user-referral-free') .'</strong> <span class="button-primary">' . esc_html(number_format($total_points)) . '</span></div>';
 
 }
 
@@ -66,8 +73,8 @@ function scurf_display_user_points_graph() {
     echo '<canvas id="user-points-chart"></canvas>';
 
     // Chart.js library locally
-    wp_enqueue_script('scurf-chart', plugin_dir_url(__FILE__) . '../assets/js/chart.js', array(), '3.0', true);
-    wp_enqueue_script('scurf-chart-script', plugin_dir_url(__FILE__) . '../assets/js/chart-script.js', array(), '3.0', true);
+    wp_enqueue_script('scurf-chart', plugin_dir_url(__FILE__) . '../assets/js/chart.js', array(), '5.0', true);
+    wp_enqueue_script('scurf-chart-script', plugin_dir_url(__FILE__) . '../assets/js/chart-script.js', array(), '5.0', true);
 
     // Localize the data to pass it to the JavaScript file
     wp_localize_script('scurf-chart-script', 'scurfChartData', array(

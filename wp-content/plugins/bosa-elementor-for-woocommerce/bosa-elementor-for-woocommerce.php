@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Bosa Elementor Addons and Templates for WooCommerce
+Plugin Name: Bosa Elementor for WooCommerce
 Plugin URI: https://bosathemes.com/bosa-elementor-for-woocommerce
 Description: A collection of 30+ Free Elementor Templates specially designed for your Shop or Marketplace. It comes with Free WooCommerce based Elementor Widgets Including Product Grid, Product Categories, Product Carousel, Contact Form 7, Post Grid and many more.
-Version:     1.0.13
+Version:     1.0.16
 Author:      Bosa Themes
 Author URI:  https://bosathemes.com
 License:     GPLv3 or later
@@ -172,17 +172,21 @@ if (!class_exists('BEW')) {
 
             // Load Elementor Featured Service
             require_once $this->this_dir . 'widgets/bew-elements-products.php';
+            require_once $this->this_dir . 'widgets/bew-elements-products-list.php';
             require_once $this->this_dir . 'widgets/bew-elements-categories.php';
             require_once $this->this_dir . 'widgets/bew-elements-carousel-products.php';
             require_once $this->this_dir . 'widgets/bew-elements-blog.php';
             require_once $this->this_dir . 'widgets/bew-elements-contact-form-7.php';
+            require_once $this->this_dir . 'widgets/bew-elements-site-logo.php';
             
             // // Register Featured Service Widget
             $widgets_manager->register( new \Elementor\BEW_Products() );
+            $widgets_manager->register( new \Elementor\BEW_Products_List() );
             $widgets_manager->register( new \Elementor\BEW_Categories() );
             $widgets_manager->register( new \Elementor\BEW_Carousel_Products() );
             $widgets_manager->register( new \Elementor\BEW_Blog() );
             $widgets_manager->register( new \ELementor\BEW_Contact_Form_7() );
+            $widgets_manager->register( new \ELementor\BEW_Site_Logo() );
             
         }
 

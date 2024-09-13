@@ -56,13 +56,13 @@
 			var wps_user_current_points = parseInt( wps_wpr.wps_user_current_points );
 			if ( minimum_redeem_points <= wps_user_current_points ) {
 
-				jQuery('.wp-block-woocommerce-cart-order-summary-coupon-form-block').append('<div class="wps_wpr_append_points_apply_html"><input type="number" min="0" name="wps_cart_points" class="input-text" id="wps_cart_points" value="" placeholder="Points"/><button class="button wps_cart_points_apply" name="wps_cart_points_apply" id="wps_cart_points_apply" value="Apply Points" data-order-limit="0">Apply Points</button></div>');
-				jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class="wps_wpr_append_points_apply_html"><input type="number" min="0" name="wps_cart_points" class="input-text" id="wps_cart_points" value="" placeholder="Points"/><button class="button wps_cart_points_apply" name="wps_cart_points_apply" id="wps_cart_points_apply" value="Apply Points" data-order-limit="0">Apply Points</button></div>');
+				jQuery('.wp-block-woocommerce-cart-order-summary-coupon-form-block').append('<div class="wps_wpr_apply_custom_points custom_point_checkout wps_wpr_append_points_apply_html"><input type="number" min="0" name="wps_cart_points" class="input-text" id="wps_cart_points" value="" placeholder="Points"/><button class="button wps_cart_points_apply" name="wps_cart_points_apply" id="wps_cart_points_apply" value="Apply Points" data-order-limit="0">Apply Points</button><p>' + wps_wpr_cart_block_obj. available_points_msg + ' : ' + wps_wpr_cart_block_obj.current__points + ' </p></div>');
+				jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class="wps_wpr_apply_custom_points custom_point_checkout wps_wpr_append_points_apply_html"><input type="number" min="0" name="wps_cart_points" class="input-text" id="wps_cart_points" value="" placeholder="Points"/><button class="button wps_cart_points_apply" name="wps_cart_points_apply" id="wps_cart_points_apply" value="Apply Points" data-order-limit="0">Apply Points</button><p>' + wps_wpr_cart_block_obj.available_points_msg + ' : ' + wps_wpr_cart_block_obj.current__points + ' </p></div>');
 			} else {
 
 				var required_points = parseInt( minimum_redeem_points - wps_user_current_points );
-				jQuery('.wp-block-woocommerce-cart-order-summary-coupon-form-block').append( 'You require : ' + required_points + ' more to get redeem' );
-				jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append( 'You require : ' + required_points + ' more to get redeem' );;
+				jQuery('.wp-block-woocommerce-cart-order-summary-coupon-form-block').append( wps_wpr.points_message_require + required_points + wps_wpr.points_more_to_redeem );
+				jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append( wps_wpr.points_message_require + required_points + wps_wpr.points_more_to_redeem );
 			}
 		});
 
@@ -110,7 +110,18 @@
 				}
 			}
 		);
+		
+		// update page when cart and checkout total earning points functionality enable.
+		if ( '1' == wps_wpr_cart_block_obj.wps_wpr_cart_page_total_earning_points ) {
 
+			jQuery(document).on('click', '.wc-block-components-quantity-selector__button.wc-block-components-quantity-selector__button--plus', function(){
+				wps_wpr_refresh_cart_page();
+			});
+
+			jQuery(document).on('click', '.wc-block-components-quantity-selector__button.wc-block-components-quantity-selector__button--minus', function(){
+				wps_wpr_refresh_cart_page();
+			});
+		}
 	});
 })(jQuery);
 
@@ -147,4 +158,24 @@ function on_cart_click(data) {
 			}
 		});
 	}
+}
+
+function wps_wpr_refresh_cart_page() {
+	var cart_checkout_qtyt = jQuery(this).closest('.wc-block-components-quantity-selector').find('.wc-block-components-quantity-selector__input').val();
+	var data               = {
+		'action'             : 'updating_total_earning_points',
+		'nonce'              : wps_wpr_cart_block_obj.wps_wpr_nonce,
+		'cart_checkout_qtyt' : cart_checkout_qtyt
+	};
+	jQuery.ajax({
+		url     : wps_wpr_cart_block_obj.ajaxurl,
+		method  : 'POST',
+		data    : data,
+		success : function( response ) {
+			setTimeout(() => {
+				
+				window.location.reload();
+			}, 1500);
+		}
+	});
 }

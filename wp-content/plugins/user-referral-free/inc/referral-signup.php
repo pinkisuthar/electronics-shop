@@ -1,4 +1,11 @@
 <?php
+/*
+	* Page Name: 		referral-signup.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
 // Visitor Signup Points //
 function scurf_handle_signup_link( $user_id ) {
     if (isset($_COOKIE['ref'])) {

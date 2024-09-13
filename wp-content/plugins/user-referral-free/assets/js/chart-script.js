@@ -5,7 +5,7 @@
       var scurfChartData = window.scurfChartData; // Access the localized data
   
       var chart = new Chart(ctx, {
-        type: "bar",
+        type: "line",
         data: {
           labels: scurfChartData.labels,
           datasets: [{

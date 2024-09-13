@@ -1,5 +1,12 @@
 <?php
-// Plugin activation callback
+/*
+	* Page Name: 		user-hooks.php
+	* Page URL: 		https://softclever.com
+	* Author: 			Md Maruf Adnan Sami
+	* Author URL: 		https://www.mdmarufadnansami.com
+*/ 
+
+// Activation Callback //
 function scurf_plugin_activate_action() {
     $default_options = array(
         'visitor_referral_points' => '00',
